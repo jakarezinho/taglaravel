@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\HabitarController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\VoteController;
+use App\Http\Controllers\HabitarController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,5 +26,8 @@ Route::get('/map', function () {
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
+
 Route::get('locais', [HabitarController::class, 'index'])->name('locais');
 Route::post('addlocal', [HabitarController::class, 'store'])->name('addlocal');
+
+Route::post('like', [VoteController::class, 'store'])->name('like');

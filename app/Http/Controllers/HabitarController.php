@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\habitar;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -20,14 +21,20 @@ class HabitarController extends Controller
     {
 
         $locais = DB::table('habitars')
+            ->select(['habitars.*', 'users.name','users.profile_photo_path', DB::raw('COUNT(votes.id) as likes')])
+
             ->leftJoin('users', 'users.id', '=', 'habitars.user_id')
+
+            ->leftJoin('votes', function ($join) {
+                $join->on('habitars.id', '=', 'votes.habitars_id')
+                    ->where('votes.action', '=', 'like');
+            })->groupBy('habitars.id')
             ->get();
 
 
         return response()->json(['data' => $locais]);
     }
 
-   
 
     /**
      * Store a newly created resource in storage.
