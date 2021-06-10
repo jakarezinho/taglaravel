@@ -21,10 +21,9 @@ class HabitarController extends Controller
     {
 
         $locais = DB::table('habitars')
-            ->select(['habitars.*', 'users.name','users.profile_photo_path', DB::raw('COUNT(votes.id) as likes')])
+            ->select(['habitars.*', 'users.name', 'users.profile_photo_path', DB::raw('COUNT(votes.id) as likes')])
 
             ->leftJoin('users', 'users.id', '=', 'habitars.user_id')
-
             ->leftJoin('votes', function ($join) {
                 $join->on('habitars.id', '=', 'votes.habitars_id')
                     ->where('votes.action', '=', 'like');
@@ -33,8 +32,40 @@ class HabitarController extends Controller
 
 
         return response()->json(['data' => $locais]);
+
+        
     }
 
+/*
+Travel::select(
+                    DB::raw("travels.*,
+                          ( 6371 * acos( cos( radians($lat) ) *
+                            cos( radians( lat ) )
+                            * cos( radians( lon ) - radians($lng)
+                            ) + sin( radians($lat) ) *
+                            sin( radians( lat ) ) )
+                          ) AS distance"))
+                ->orderBy('distance', 'asc')
+                ->get();
+
+                $cities = City::select(DB::raw('*, ( 6367 * acos( cos( radians('.$latitude.') ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians('.$longitude.') ) + sin( radians('.$latitude.') ) * sin( radians( latitude ) ) ) ) AS distance'))
+    ->having('distance', '<', 25)
+    ->orderBy('distance')
+    ->get();
+*/
+public function avolta($lat,$lng,$distance)
+{
+
+   
+    
+$locais = habitar::selectRaw('*,( 6371 * acos( cos( radians(?) ) * cos( radians( lat ) ) * cos( radians( lng ) - radians(?) ) + sin( radians(?) ) * sin( radians( lat ) ) ) ) AS distance', [$lat, $lng, $lat])
+        ->havingRaw('distance < ?', [$distance])
+        ->orderBy('distance')
+        ->get();
+
+
+return response()->json(['data' => $locais]);
+}
 
     /**
      * Store a newly created resource in storage.
@@ -96,8 +127,9 @@ class HabitarController extends Controller
      * @param  \App\Models\habitar  $habitar
      * @return \Illuminate\Http\Response
      */
-    public function destroy(habitar $habitar)
+    public function destroy( habitar $habitar)
     {
-        //
+
+        $habitar->delete();
     }
 }
