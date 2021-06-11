@@ -36,30 +36,22 @@ class HabitarController extends Controller
         
     }
 
-/*
-Travel::select(
-                    DB::raw("travels.*,
-                          ( 6371 * acos( cos( radians($lat) ) *
-                            cos( radians( lat ) )
-                            * cos( radians( lon ) - radians($lng)
-                            ) + sin( radians($lat) ) *
-                            sin( radians( lat ) ) )
-                          ) AS distance"))
-                ->orderBy('distance', 'asc')
-                ->get();
-
-                $cities = City::select(DB::raw('*, ( 6367 * acos( cos( radians('.$latitude.') ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians('.$longitude.') ) + sin( radians('.$latitude.') ) * sin( radians( latitude ) ) ) ) AS distance'))
-    ->having('distance', '<', 25)
-    ->orderBy('distance')
-    ->get();
-*/
+/**
+ * get tags by distance lat lng 
+ */
 public function avolta($lat,$lng,$distance)
 {
 
-   
-    
-$locais = habitar::selectRaw('*,( 6371 * acos( cos( radians(?) ) * cos( radians( lat ) ) * cos( radians( lng ) - radians(?) ) + sin( radians(?) ) * sin( radians( lat ) ) ) ) AS distance', [$lat, $lng, $lat])
-        ->havingRaw('distance < ?', [$distance])
+
+$locais = DB::table('habitars')
+->selectRaw('users.name, users.profile_photo_path,habitars.*, ( 6371 * acos( cos( radians(?) ) * cos( radians( lat ) ) * cos( radians( lng ) - radians(?) ) + sin( radians(?) ) * sin( radians( lat ) ) ) ) AS distance,COUNT(votes.id) as likes', [$lat, $lng, $lat])
+->leftJoin('users', 'users.id', '=', 'habitars.user_id')
+->leftJoin('votes', function ($join) {
+    $join->on('habitars.id', '=', 'votes.habitars_id')
+        ->where('votes.action', '=', 'like');
+})
+->havingRaw('distance < ?', [$distance])
+->groupBy('habitars.id')
         ->orderBy('distance')
         ->get();
 
