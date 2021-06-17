@@ -43,7 +43,7 @@ class VoteController extends Controller
 
         );
 
-        return;
+        return response()->json(['action' => request('action')]);
     }
 
     /**

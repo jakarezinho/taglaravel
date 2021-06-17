@@ -18,6 +18,7 @@
                   </div>
              
                <div class="p-6"> 
+           
                @if (Auth::user()->locais->count() > 0)
                <p>TAGS</p>
                     @foreach (  Auth::user()->locais as $local )

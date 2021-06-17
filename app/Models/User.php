@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Vote;
 use App\Models\habitar;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Jetstream\HasProfilePhoto;
@@ -65,4 +66,6 @@ class User extends Authenticatable
         return $this->hasMany(habitar::class);
         
     }
+
+  
 }

@@ -32,32 +32,50 @@ class HabitarController extends Controller
 
 
         return response()->json(['data' => $locais]);
-
-        
     }
 
-/**
- * get tags by distance lat lng 
- */
-public function avolta($lat,$lng,$distance)
-{
+    /**
+     * get tags by distance lat lng 
+     * @return \Illuminate\Http\Response
+     */
+    public function avolta($lat, $lng, $distance)
+    {
 
 
-$locais = DB::table('habitars')
-->selectRaw('users.name, users.profile_photo_path,habitars.*, ( 6371 * acos( cos( radians(?) ) * cos( radians( lat ) ) * cos( radians( lng ) - radians(?) ) + sin( radians(?) ) * sin( radians( lat ) ) ) ) AS distance,COUNT(votes.id) as likes', [$lat, $lng, $lat])
-->leftJoin('users', 'users.id', '=', 'habitars.user_id')
-->leftJoin('votes', function ($join) {
-    $join->on('habitars.id', '=', 'votes.habitars_id')
-        ->where('votes.action', '=', 'like');
-})
-->havingRaw('distance < ?', [$distance])
-->groupBy('habitars.id')
-        ->orderBy('distance')
-        ->get();
+        $locais = DB::table('habitars')
+            ->selectRaw('users.name, users.profile_photo_path,habitars.*, ( 6371 * acos( cos( radians(?) ) * cos( radians( lat ) ) * cos( radians( lng ) - radians(?) ) + sin( radians(?) ) * sin( radians( lat ) ) ) ) AS distance,COUNT(votes.id) as likes', [$lat, $lng, $lat])
+            ->leftJoin('users', 'users.id', '=', 'habitars.user_id')
+            ->leftJoin('votes', function ($join) {
+                $join->on('habitars.id', '=', 'votes.habitars_id')
+                    ->where('votes.action', '=', 'like');
+            })
+            ->havingRaw('distance < ?', [$distance])
+            ->groupBy('habitars.id')
+            ->orderBy('distance')
+            ->get();
 
 
-return response()->json(['data' => $locais]);
-}
+        return response()->json(['data' => $locais]);
+    }
+
+    /**
+     * 
+     * tags for dislikes
+     * @return \Illuminate\Http\Response
+     */
+    public function tagsdislikes()
+    {
+        $dislike = DB::table('habitars')
+            ->select(['habitars.*', DB::raw('COUNT(votes.id) as dislikes')])
+
+            ->leftJoin('votes', function ($join) {
+                $join->on('habitars.id', '=', 'votes.habitars_id')
+                    ->where('votes.action', '=', 'dislike');
+            })->groupBy('habitars.id')
+            ->get();
+
+        return response()->json(['data' => $dislike]);
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -119,9 +137,13 @@ return response()->json(['data' => $locais]);
      * @param  \App\Models\habitar  $habitar
      * @return \Illuminate\Http\Response
      */
-    public function destroy( habitar $habitar)
+    public function destroy(habitar $habitar)
     {
+        if(Auth()->user()->id ==$habitar->user_id){
+            return $habitar->delete();
+        }else{
+            return route('/map');
+        }
 
-        $habitar->delete();
     }
 }

@@ -16,7 +16,7 @@ use App\Http\Controllers\HabitarController;
 */
 
 Route::get('/', function () {
-    return view('front.locais');
+    return view('front.home');
 });
 
 
@@ -41,6 +41,8 @@ Route::post('addlocal', [HabitarController::class, 'store'])->name('addlocal');
 Route::post('destroy/{habitar}', [HabitarController::class, 'destroy'])->name('destroy');
 
 Route::get('avolta/{lat}/{lng}/{distance}', [HabitarController::class, 'avolta'])->name('avolta');
+///dislikes
+Route::get('dislikes/', [HabitarController::class, 'tagsdislikes'])->name('dislikes');
 
 ////vote
 Route::post('like', [VoteController::class, 'store'])->name('like');
