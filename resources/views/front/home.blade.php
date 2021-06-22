@@ -16,6 +16,8 @@
 <style>
     :root {
         --blanc: #FFF;
+        --nav:#dc9044;
+        --color1:#86BEC0;
         --noir: #000;
         --rouge: #ee1a1a;
         --shadow: #131111;
@@ -30,18 +32,28 @@
         font-family: 'Nunito', sans-serif;
     }
 
+    body{
+        background-color: var(--tableau);
+    }
+    hr{
+       margin-left:10%;
+       margin-right: 10%;
+       margin-top: 100px;
+       margin-bottom: 50px;
+       border-top: 1px solid var(--tableau);
+   
+    }
+
 
     .container {
-        background-color: var(--tableau);
+        
         width: 100%;
-        height: 100vh;
-
+        height: 100vh; 
+        padding: 20px;
     }
 
     .header {
-
-        margin: 20px;
-        padding-top: 20px;
+        margin-top: 20px;
         font-size: 30px;
         display: flex;
 
@@ -51,7 +63,7 @@
     .header div {
         width: calc(100% - 100px);
         height: auto;
-      
+
 
     }
 
@@ -60,27 +72,54 @@
 
 
     }
+    /*nav*/
 
-    .hometitle {
-        padding-top: 40px
+    .nav{
+        padding: 20px;
+        text-align: right;
+    }
+    .nav p{
+         display: inline;
+         padding-left: 5px;
+    }
+    .icon{
+        width: 20px;
+        height: 20px;
     }
 
-    .map {
-        background-color: #DC9044;
+    .map a {
+        background-color: var(--noir);
         font-size: 20px;
         color: var(--blanc);
-        padding: 10px;
+        padding: 20px;
         text-decoration: none;
-        margin-top: 50px;
         border-radius: 5px;
+    }
+    .map a:hover{
+        background-color: var(--rouge);
+
+    }
+    .map {
+         margin-top: 50px;
+         margin-bottom:50px;
+        
+        
     }
 
     .homeintro {
-        padding-top: 20px;
+        padding-top: 35px;
         font-size: 20px;
+    } 
+   .section{
+        color: #978787;
+    
     }
-    .beta{
-     font-size: 14px;
+
+    
+   
+
+    .beta {
+        font-size: 14px;
     }
 
     /* RESPONSIVE*/
@@ -101,16 +140,16 @@
 
 <body>
     <div class="container">
-        <div>
+        <div class="nav">
             @if (Route::has('login'))
                 <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
                     @auth
-                        <a href="{{ url('/dashboard') }}" class="text-sm text-gray-700 underline">Dashboard</a>
+                       <p> <a href="{{ url('/dashboard') }}" class="text-sm text-gray-700 underline">Dashboard</a></p>
                     @else
-                        <a href="{{ route('login') }}" class="text-sm text-gray-700 underline">Log in</a>
+                        <p><a href="{{ route('login') }}" class="text-sm text-gray-700 underline">Log in</a></p>
 
                         @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 underline">Register</a>
+                           <p> <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 underline">Register</a></p>
                         @endif
                     @endauth
                 </div>
@@ -269,43 +308,45 @@
                 </svg>
             </div>
             <div class="hometitle">
-             
-                <h1>A vida da cidade    <span class="beta">(Beta)</span></h1>
-                <p>Conhecer melhor cidades e bairros</p>
 
-                <p>Mapa colaborativo   adicionar suas próprias dicas e anotações </p>
+                <h1>A vida da cidade <span class="beta">(Beta)</span></h1>
+                <h2>Conhecer melhor cidades e bairros</h2>
 
+                <p>Mapa colaborativo adicionar suas próprias dicas e anotações. Votar e comfirmar as outras anotações </p>
                 <div class="homeintro">
-
+                    @if (Route::has('login'))
                     @auth
                         <p><strong> Hello {{ Auth::user()->name }} </strong> Anotações e dicas perto de si insultos
                             prefira o humor </p>
-                    
-                        <p class="hometitle"> <a class="map" href=""> Escrever e ver mapa</a></p>
+
+
                     @else
-                        <p> Para escrever no mapa deve estar conectado <span> <a href="{{ route('login') }}" class="">Log
-                                    in</a></span> </p>
+                        <p> Para escrever no mapa deve estar conectado <span> <a href="{{ route('login') }}" class="">Login</a></span> </p>
 
                         @if (Route::has('register'))
-                            <p>Não tem conta ? <a href="{{ route('register') }}" class="">Register</a> </p>
-
+                            <p><small>Não tem conta ? <a href="{{ route('register') }}" >Register</a></small> </p>
 
                         @endif
                     @endauth
-
+                    
+                    
+                    @endif
+                   <p class="map"> <a  href="{{ route('map') }}"> Ver dicas no mapa »</a></p>
                 </div>
-                <div class="homeintro"> 
+               
+                <div class="homeintro section">
 
-                    Se pretende ir para novo num local pode ser util  
+                   <p> Cada vez que vou para um novo lugar é difícil descobrir para que partes da cidade devo ir fora do centro turístico. Sei que 90% das pessoas que vão para um novo local ou cidade não terá
+                    nenhuma idéia tambéml . Os centros turísticos  são uma área falsa que muitas vezes não têm nada a ver com a realidade local</p>
+                 
+               
                 </div>
 
 
             </div>
         </div>
-        <div>
-            <h1>
-                aAaA
-            </h1>
+        <div class="header">
+            <p> sasasasa</p>
         </div>
 
 

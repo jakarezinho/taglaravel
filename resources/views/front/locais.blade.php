@@ -34,6 +34,11 @@
         integrity="sha512-HrFUyCEtIpxZloTgEKKMq4RFYhxjJkCiF5sDxuAokklOeZ68U2NPfh4MFtyIVWlsKtVbK5GD2/JzFyAfvT5ejA=="
         crossorigin=""></script>
 
+    <!--load auto complete recherche--->
+    <link rel="stylesheet" href="{{ asset('cherche/css/autocomplete.css') }}" />
+    <script src="{{ asset('cherche/js/autocomplete.js') }}"></script>
+
+
     <style>
         :root {
             --blanc: #FFF;
@@ -118,9 +123,7 @@
             margin: 20px;
             padding-top: 100px;
             font-size: 30px;
-            display: flex;
-
-
+            display: flex
         }
 
         .header div {
@@ -130,15 +133,10 @@
 
         }
 
-
-
         .list {
             list-style: none;
             font-size: 13px;
         }
-
-
-
 
         /* ////// STYLE TAGS /////// */
 
@@ -279,55 +277,51 @@
         }
 
         /*PESQUISA*/
-
         .search {
             position: absolute;
-            top: 20px;
-            left: 20px;
+            left: 25px;
             z-index: 100;
-            background-color: var(--blanc);
-            box-shadow: 1px 2px 4px rgb(0 0 0 / 3%);
-            border-radius: 5px;
-        }
-
-        .search span {
-            position: fixed;
-            left: 30px;
-            top: 35px;
         }
 
         .search input {
             border: none;
             outline: none;
             padding: 10px;
-            margin-left: 10px;
             margin-right: 10px;
             font-size: 1.35em;
             text-align: center;
             font-weight: 800;
-            border-radius: 5px;
+            border-radius: 5px
         }
 
-        .result {
-            display: none;
-            width: 300px;
-            padding: 10px;
-            list-style-type: none;
+        .search span {
+            position: fixed;
+            left: 30px;
+            top: 32px;
         }
 
-        .result li {
-            padding: 5px;
-            text-align: center;
-        }
+
 
         /*DIVERS*/
         .textcenter {
             text-align: center;
         }
 
+        .homeintro p {
+            padding-top: 40px
+        }
+
         .homeintro {
             padding-top: 20px;
             font-size: 20px;
+        }
+
+        .homeintro small {
+            font-size: 14px;
+        }
+
+        .beta {
+            font-size: 14px;
         }
 
         /* RESPONSIVE*/
@@ -508,33 +502,44 @@
                 </svg>
 
             </div>
-            <div>
-            <span class="beta">Beta</span>
-                <h1>A vida da cidade </h1>
-                <p>Conhecer melhor cidades e bairros</p>
+            <div class="hometitle">
 
-                <p>Mapa colaborativo  pode adicionar  as suas próprias dicas e anotações </p>
-                
+                <h1>A vida da cidade <span class="beta">(Beta)</span></h1>
+                <h2>Conhecer melhor cidades e bairros</h2>
+
+                <p>mapa colaborativo adicionar suas próprias dicas e anotações. Votar e comfirmar as outras anotações
+                </p>
+
+
+
                 <div class="homeintro">
 
                     @auth
-                        <p><strong> Hello {{ Auth::user()->name }} </strong> Anotações e dicas perto de si evite insultos
-                            prefira o humor </p>
-                        <span> <a href="{{ url('/dashboard') }}" class="">Dashboard</a></span>
-                        <p class="hometitle"> <a class="map" href="{{ route('map') }}"> Escrever e ver mapa</a></p>
-                    @else
-                        <p> Para escrever no mapa deve estar conectado <span> <a href="{{ route('login') }}" class="">Log
-                                    in</a></span> </p>
+                        <p><strong> Hello {{ Auth::user()->name }} </strong> Adicionar anotações ao mapa preferir humor
+                            aos insultos </p>
 
-                        @if (Route::has('register'))
-                            <p>Não tem conta ? <a href="{{ route('register') }}" class="">Register</a> </p>
+
+                    @else
+                        <p> Para escrever no mapa deve estar conectado <span> <a href="{{ route('login') }}"
+                                    class="">Login</a></span> <br>
+
+                            @if (Route::has('register'))
+                                <small> Não tem conta ? <a href="{{ route('register') }}" class="">Register</a> </small>
+                        </p>
 
 
                         @endif
+
                     @endauth
 
                 </div>
+                <div class="homeintro">
 
+                    <p> Cada vez que vou para um novo lugar é difícil descobrir para que partes da cidade devo ir fora
+                        do centro turístico. Sei que 90% das pessoas que vão para um novo local ou cidade não terá
+                        nenhuma idéia tambéml . Os centros turísticos são uma área falsa que muitas vezes não têm nada a
+                        ver com a realidade local</p>
+                </div>
 
 
             </div>
@@ -553,7 +558,7 @@
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
                         <a href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                         this.closest('form').submit();">
+                                                                             this.closest('form').submit();">
                             sair
                         </a>
                     </form>
@@ -575,12 +580,11 @@
 
     </div>
     <!---/search/-->
-    <div class="search"> <input type="text" autocomplete="off" id="cherche" placeholder="Procurar"><span
-            class="material-icons-two-tone">
-            search
-        </span>
-        <ul id="r" class="result"></ul>
+    <div class="search">
+        <input type="text" autocomplete="off" id="search" class="full-width" placeholder="Procurar">
+        <span class="material-icons-two-tone"> search</span>
     </div>
+
     <div id="vote"> vote</div>
     <div class="main-container">
         <div class="tag-text-box"> <input type="text" maxlength="40" id="tag" placeholder="tag" /> <button id="envia"
@@ -597,7 +601,6 @@
     @auth
         <script>
             let user_id = '{{ Auth::user()->id }}'
-
         </script>
 
     @endauth
@@ -621,7 +624,7 @@
         }).addTo(map);
 
         //// VARS /// 
-
+        user_id = typeof user_id != 'undefined' ? user_id : null
         let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
         let vote = document.getElementById('vote')
         let tag = document.getElementById('tag')
@@ -631,6 +634,7 @@
         let escreve = document.getElementById('escreve')
         let adress = document.getElementById('adress')
         let stop = document.getElementById('stop')
+        let init = document.querySelector('.map')
         let geral
         let detail
         let active
@@ -645,15 +649,16 @@
         let open = document.querySelector('#open')
         let dcm = document.querySelector('#dc')
 
-
         open.innerHTML = '<span class="material-icons-two-tone">help_outline </span>'
         open.addEventListener("click", () => {
-
             open.innerHTML = '<span class="material-icons-two-tone">close</span>'
             if (dcm.classList.contains('dep')) {
                 open.innerHTML = '<span class="material-icons-two-tone">help_outline</span>'
+
             } else {
                 open.innerHTML = '<span class="material-icons-two-tone">close</span>'
+
+
             }
 
             dc.classList.toggle("dep")
@@ -697,7 +702,7 @@
                         hot = hotTag(post.likes)
                         size = sizeTag(20, post.likes)
 
-                        let destroy = typeof user_id != 'undefined' && user_id == post.user_id ?
+                        let destroy = user_id == post.user_id || user_id == 1 ?
                             `<span class="destroy" id="destroy"  data-id="${post.id}">delete</span>` : ''
 
 
@@ -794,7 +799,7 @@
         /////////////////////////////// ESCREVE TAGS /////////////////////////////
         escreve.addEventListener('click', () => {
 
-            if (typeof user_id == 'undefined') {
+            if (user_id == null) {
                 alert('deve estar connectado enviar um local!')
                 return
             }
@@ -993,7 +998,7 @@
 
             ///action like///
             like.addEventListener('click', (e) => {
-                if (typeof user_id == 'undefined') {
+                if (user_id == null) {
                     alert('deve estar connectado para poder votar')
                     return
                 }
@@ -1015,7 +1020,7 @@
             })
             ////// action like ////
             dislike.addEventListener('click', (e) => {
-                if (typeof user_id == 'undefined') {
+                if (user_id == null) {
                     alert('deve estar connectado para poder votar')
                     return
                 }
@@ -1039,12 +1044,17 @@
 
             //// END LIKES////
 
-            //// delete tag ///
+            //////////////////////// DELETE TAGS ///////////////////
+
             if (typeof destroy != 'undefined') {
                 deletetag.addEventListener('click', (e) => {
 
-
+                    let result = confirm("Quer mesmo remover este tag?")
+                    if (!result) {
+                        return
+                    }
                     console.log(deletetag.dataset.id)
+
                     //delete tag
                     deleteTag(deletetag.dataset.id)
 
@@ -1090,7 +1100,7 @@
 
             };
             //  fetch 
-            fetch(baseurl + "/destroy/" + tag_id, requestOptions)
+            fetch(`${baseurl}/destroy/${tag_id}`, requestOptions)
                 .then(function(response) {
                     return response.text();
                 })
@@ -1109,163 +1119,124 @@
         }
 
 
-
         /////////////////// PESQUISA  CIDADES///////////////
-        const locations = [{
-                name: 'Baleal',
-                lat: '39.37328872711334',
-                lng: '-9.338089240589285',
-                hab: '27.753',
+        // minimal configure
+        var marker = {};
+        new Autocomplete('search', {
+            // default selects the first item in
+            // the list of results
+            selectFirst: true,
 
-            }, {
-                name: 'Caldas da rainha',
-                lat: '39.40383605302325',
-                lng: '-9.133737087249758',
-                hab: '51.729'
-            }, {
-                name: 'Foz do arelho',
-                lat: '39.43243509336661',
-                lng: '-9.227501741383778',
-                hab: '1.339'
+            // The number of characters entered should start searching
+            howManyCharacters: 2,
 
-            }, {
-                name: 'São martinho do porto',
-                lat: '39.50956201385417',
-                lng: '-9.134005308151247',
-                hab: '2.868',
+            // onSearch
+            onSearch: ({
+                currentValue
+            }) => {
+                // You can also use static files
+                // const api = '../static/search.json'
+                const api =
+                    `https://nominatim.openstreetmap.org/search?format=geojson&limit=5&city=${encodeURI(currentValue)}`;
+                //const api = `https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/suggest?text=${encodeURI(currentValue)}&maxSuggestions=5&f=pjson`;
 
-            }, {
-                name: 'Obidos',
-                lat: '39.36073092757501',
-                lng: '-9.157614081770232',
-                hab: '11.772',
-
-            }, {
-                name: 'Nazaré',
-                lat: '39.60093504721288',
-                lng: '-9.070909023284914',
-                hab: '14.173'
-
-            },
-            {
-                name: 'Peniche',
-                lat: '39.356043983908506',
-                lng: '-9.380811452865602',
-                hab: '14.173'
-
-            },
-
-        ]
-        ///// VARS 
-        let zoom = 16
-        let cherche = document.getElementById('cherche')
-        let r = document.getElementById('r')
-        let listIntro = document.getElementById('listintro')
-        infoslocal = document.getElementById('infoslocal')
-        typeof zoomDevice !== 'undefined' ? zoom = zoomDevice : zoom
-        let courantlocal
-        const liItem = r.getElementsByTagName("li");
+                return new Promise((resolve) => {
+                    fetch(api)
+                        .then(response => response.json())
+                        .then(data => {
+                            resolve(data.features)
 
 
-
-
-        //// CHERCHE VILE 
-        cherche.addEventListener('focus', (e) => {
-            localidades(locations)
-            cherche.value = ''
-
-
-        })
-
-        cherche.addEventListener("keyup", (e) => {
-            processResults(r)
-        });
-
-        cherche.addEventListener('focusout', (e) => {
-            if (!cherche.contains(e.relatedTarget))
-                setTimeout(function() {
-                    r.innerHTML = ''
-                    r.style.display = 'none'
-                }, 500);
-
-
-        });
-
-        ///// DISPLAY VILES
-
-        function localidades(locations) {
-
-            locations.map((city, index) => {
-                r.style.display = 'block'
-                let li = document.createElement('li')
-                let a = document.createElement('a')
-                a.setAttribute('href', '#')
-                a.innerHTML = city.name
-                li.append(a)
-                if (a.innerHTML == courantlocal) {
-                    li.style.display = 'none'
-
-                }
-                r.appendChild(li)
-
-
-                li.addEventListener('click', (e) => {
-                    li.dataset.lat
-                    cherche.value = city.name
-                    r.innerHTML = ''
-                    r.style.display = 'none'
-                    map.setView([city.lat, city.lng], zoom);
-                    courantlocal = city.name
-                    cherche.value = courantlocal
-                    displayInfos(city.name, city.hab, city.lat, city.lng)
-
+                        })
+                        .catch(error => {
+                            console.error(error);
+                        })
                 })
+            },
+            // nominatim GeoJSON format parse this part turns json into the list of
+            // records that appears when you type.
+            onResults: ({
+                currentValue,
+                matches,
+                template
+            }) => {
+                const regex = new RegExp(currentValue, 'gi');
+
+                // if the result returns 0 we
+                // show the no results element
+                return matches === 0 ? template : matches
+                    .map((element) => {
+                        return `
+          <li class="loupe">
+            <p>
+              ${element.properties.display_name.replace(regex, (str) => `<b>${str}</b>`)}
+            </p>
+          </li> `;
+                    }).join('');
+            },
+
+            // we add an action to enter or click
+            onSubmit: ({
+                object
+            }) => {
+                const {
+                    display_name
+                } = object.properties;
+                const cord = object.geometry.coordinates;
+
+                if (marker != undefined) {
+                    map.removeLayer(marker);
+                };
+
+                // custom id for marker
+                const customId = Math.random();
+
+                // create marker and add to map
+                marker = L.marker([cord[1], cord[0]], {
+                        title: display_name,
+                        id: customId
+                    })
+                    .addTo(map)
+                // .bindPopup(display_name);
+
+                // sets the view of the map
+                map.setView([cord[1], cord[0]], 8);
 
 
-            })
+                // removing the previous marker
+                // if you want to leave markers on
+                // the map, remove the code below
+                /* map.eachLayer(function(layer) {
+                        if (layer.options && layer.options.pane === "markerPane") {
+                            if (layer.options.id !== customId) {
+                                map.removeLayer(layer);
+                            }
+                        }
+                        console.log('layer')
+                    });
+                  */
+            },
 
+            // get index and data from li element after
+            // hovering over li with the mouse or using
+            // arrow keys ↓ | ↑
+            onSelectedItem: ({
+                index,
+                element,
+                object
+            }) => {
+                console.log('onSelectedItem:', index, element, object);
+            },
 
-        }
+            // the method presents no results element
+            noResults: ({
+                currentValue,
+                template
+            }) => template(`<li>No results found: "${currentValue}"</li>`),
+        });
 
-        ///// filtre resultats
-        function processResults(r) {
-            Array.from(liItem).forEach(element => {
-                links = element.getElementsByTagName("a")[0];
-                filterSearch = cherche.value.toUpperCase();
-
-                if (links.innerHTML.toUpperCase().indexOf(filterSearch) > -1) {
-                    element.style.display = "";
-                } else {
-                    element.style.display = "none";
-                }
-            })
-        }
-
-        ////Display infos
-
-
-        function displayInfos(name, hab, lat, lng) {
-
-            const booking =
-                `<a target="_new" href="https://www.booking.com/searchresults.html?latitude=${lat};longitude=${lng};" class="booking-link"><img src="https://logo.clearbit.com/booking.com" width="30" height="30"></a>`
-            const airbnb =
-                `<a target="_new" href="https://www.airbnb.com/s/homes?ne_lat=${lat}&ne_lng=${lng}&sw_lat=${lat-0.0002}&sw_lng=${lng-0.0002}&zoom=12&search_by_map=true&search_type=unknown&screen_size=large&map_toggle=true" class="airbnb-link"><img src="https://logo.clearbit.com/airbnb.com" width="30" height="30"></a>`
-            const google =
-                `<a target="_new" href="https://www.google.com/maps/search/hotels/@${lat},${lng},16z" class="gmaps-link"><img src="https://logo.clearbit.com/google.com" width="30" height="30"></a>`
-            // infoslocal.innerHTML = `${airbnb}  ${booking}  ${google}`
-            courantlocal = name
-            cherche.value = courantlocal
-
-
-
-
-
-        }
-
-        /////////////////load map e search ///////
-        window.onload = getLocais(), displayInfos('Caldas da rainha', '14000', '39.4039', '-9.1336')
-
-
+        /////////////////load map  ///////
+        window.onload = getLocais()
     </script>
 
 

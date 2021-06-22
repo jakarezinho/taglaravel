@@ -6,7 +6,8 @@ use App\Models\habitar;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
+
 
 
 
@@ -139,8 +140,8 @@ class HabitarController extends Controller
      */
     public function destroy(habitar $habitar)
     {
-        if(Auth()->user()->id ==$habitar->user_id){
-            return $habitar->delete();
+        if(Auth()->user()->id ==$habitar->user_id || Gate::authorize('manage-users')){
+          return $habitar->delete();
         }else{
             return route('/map');
         }

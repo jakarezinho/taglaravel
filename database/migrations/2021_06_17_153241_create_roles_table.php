@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateHabitarsTable extends Migration
+class CreateRolesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,9 @@ class CreateHabitarsTable extends Migration
      */
     public function up()
     {
-        Schema::create('habitars', function (Blueprint $table) {
+        Schema::create('roles', function (Blueprint $table) {
             $table->id();
-            $table->text('title');
-            $table->string('lat');
-            $table->string('lng');
-            $table->string('adress');
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -31,6 +27,6 @@ class CreateHabitarsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('habitars');
+        Schema::dropIfExists('roles');
     }
 }
