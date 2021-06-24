@@ -37,18 +37,321 @@
     <!--load auto complete recherche--->
     <link rel="stylesheet" href="{{ asset('template/css/autocomplete.css') }}" />
     <script src="{{ asset('template/js/autocomplete.js') }}"></script>
-    <!--css app-->
-    <link rel="stylesheet" href="{{ asset('template/css/app.css') }}" />
 
+
+    <style>
+        :root {
+            --blanc: #FFF;
+            --noir: #000;
+            --rouge: #ee1a1a;
+            --shadow: #131111;
+            --tableau: #E6E4E0;
+            --shadow_map: text-shadow: 1px 1px 0 var(--shadow), 1px 2px 0 var(--shadow), 3px 3px 0 var(--shadow), -1px -1px 0 var(--shadow), 1px -1px 0 var(--shadow), -1px 1px 0 var(--shadow), 0 1px 0 var(--shadow);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        .main-container {
+            position: relative;
+            overflow: hidden;
+            height: 100%;
+            width: 100%;
+        }
+
+        #map {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            left: 0;
+            top: 0;
+            overflow: hidden;
+            z-index: 0;
+
+        }
+
+        .leaflet-popup-content-wrapper {
+            border-radius: 0px;
+
+        }
+
+        /* ////// NAVIGATION /////  */
+        .menu {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 2000;
+        }
+
+        .menu span {
+            width: 45px;
+            height: 45px;
+            padding: 5px;
+            border-radius: 50%;
+            font-size: 35px;
+            background-color: var(--blanc);
+            cursor: pointer;
+        }
+
+        .doc {
+            background-color: var(--tableau);
+            width: 100vw;
+            height: 100vh;
+            top: 0;
+            left: 0;
+            position: fixed;
+            /* left: 100vw;*/
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 300ms;
+            z-index: 0;
+            overflow: auto;
+        }
+
+        .dep {
+            /*transform: translateX(-100vw);*/
+            opacity: 1;
+            z-index: 1000;
+        }
+
+        .header {
+
+            margin: 20px;
+            padding-top: 100px;
+            font-size: 30px;
+            display: flex
+        }
+
+        .header div {
+            width: calc(100% - 100px);
+            height: auto;
+
+        }
+
+      
+
+        .list {
+            list-style: none;
+            font-size: 13px;
+        }
+
+        /* ////// STYLE TAGS /////// */
+
+        .my-labels div {
+            box-shadow: none;
+            border: none;
+            width: 200px;
+            border-width: 2px;
+            text-align: center;
+
+        }
+
+        .my-labels p {
+            padding: 0;
+            margin: 0;
+        }
+
+        .my-labels span.tag {
+            text-shadow: 1px 1px 0 var(--shadow), 1px 2px 0 var(--shadow), 3px 3px 0 var(--shadow), -1px -1px 0 var(--shadow), 1px -1px 0 var(--shadow), -1px 1px 0 var(--shadow), 0 1px 0 var(--shadow);
+            font-weight: bold;
+            line-height: 100%;
+            white-space: normal;
+            color: var(--blanc);
+
+
+        }
+
+        /* TAGS EDIT*/
+        .tag-text-box {
+            position: absolute;
+            z-index: 900;
+            display: none;
+            white-space: nowrap
+        }
+
+        #tag {
+            padding: 8px;
+            background-color: var(--blanc);
+            box-shadow: 1px 1px 1px rgb(0 0 0 / 75%);
+            border-radius: 10px;
+            margin-left: -.5em;
+            margin-top: -.5em;
+            border: none;
+            outline: none;
+            font-size: 1em;
+            font-weight: 400;
+        }
+
+        .destroy {
+            cursor: pointer;
+
+        }
+
+        .content {
+            position: absolute;
+            z-index: 90;
+            left: 20px;
+            top: 72px;
+            text-align: center;
+
+            width: 288px;
+            background-color: var(--blanc);
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .content form {
+            display: inline;
+        }
+
+        .content span {
+            margin-right: 5px;
+            margin-left: 5px;
+            font-size: 11px;
+        }
+
+        .content a {
+            color: var(--noir)
+        }
+
+        .profil {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+
+        .enable {
+            padding: 10px;
+            background-color: var(--noir);
+            color: var(--blanc);
+            border: none;
+            outline: none;
+        }
+
+        .enable.stop {
+            position: absolute;
+            z-index: 900;
+            right: 20px;
+            top: 100px;
+            display: none;
+        }
+
+        .enable.escreve {
+            position: absolute;
+            z-index: 900;
+            right: 20px;
+            top: 100px;
+        }
+
+        .active {
+            background-color: var(--rouge);
+            display: block;
+        }
+
+        /* VOTE*/
+        #likes,
+        #dislike {
+            font-size: 30px;
+            cursor: pointer;
+            color: var(--rouge);
+        }
+
+        #vote {
+            position: absolute;
+            border-radius: 5px;
+            left: 0;
+            right: 0;
+            width: 300px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 25px;
+            z-index: 900;
+            text-align: center;
+            padding: 5px;
+            background-color: var(--noir);
+            color: var(--blanc);
+            display: none;
+        }
+
+        /*PESQUISA*/
+        .search {
+            position: absolute;
+            left: 25px;
+            z-index: 100;
+        }
+
+        .search input {
+            border: none;
+            outline: none;
+            padding: 10px;
+            margin-right: 10px;
+            font-size: 1.35em;
+            text-align: center;
+            font-weight: 800;
+            border-radius: 5px
+        }
+
+        .search span {
+            position: fixed;
+            left: 30px;
+            top: 32px;
+        }
+
+
+
+        /*DIVERS*/
+        .textcenter {
+            text-align: center;
+        }
+
+        .homeintro p {
+            padding-top: 40px
+        }
+
+        .homeintro {
+            padding-top: 20px;
+            font-size: 20px;
+        }
+
+        .homeintro small {
+            font-size: 14px;
+        }
+
+        .beta {
+            font-size: 14px;
+        }
+        
+
+        /* RESPONSIVE*/
+        @media only screen and (max-width: 960px) {
+            .header {
+                flex-direction: column;
+                max-width: 100vw;
+                font-size: 20px;
+            }
+
+            .header div {
+                width: 100%
+            }
+
+
+        }
+
+    </style>
 </head>
 
 <body>
+
     <!--//nav-->
     <div class="menu">
         <div id="open"></div>
     </div>
     <div id="dc" class="doc">
-        <div class="headerl">
+        <div class="header">
             <div class="disclamer">
                 <svg id="ROAD" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1400">
                     <defs>
@@ -256,9 +559,8 @@
                 <span>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
-                        <a href="{{ route('logout') }}"
-                            onclick="event.preventDefault();
-                                                                                                 this.closest('form').submit();">
+                        <a href="{{ route('logout') }}" onclick="event.preventDefault();
+                                                                                     this.closest('form').submit();">
                             sair
                         </a>
                     </form>
@@ -374,26 +676,25 @@
         var bounds = L.latLngBounds()
 
 
-        ////////////// drag mamp load tags //////
+        ////////////// drag amp //////
         ////// MAP DRAGED///////////
         map.on("dragend", () => {
             tagbox.style.display = 'none'
             let pos = map.getCenter()
-            buildingLayers.clearLayers()
+            //buildingLayers.clearLayers()
+    
+           // LoadPosts(pos.lat, pos.lng, radius, dataPerPage, page)
 
-            getLocais(pos.lat, pos.lng)
-            
             console.log(map.getCenter().lat);
         });
 
 
 
         ///////////////////// GET LOCAIS TAGS  //////////////////
-        function getLocais(lat, lng, distance = 5) {
+        function getLocais() {
             vote.style.display = 'block'
             vote.innerHTML = 'Loading...'
             buildingLayers.clearLayers()
-            
             let thisLayer = L.popup({})
 
             var bounds = L.latLngBounds()
@@ -407,11 +708,10 @@
                 // body: urlencoded,
             };
 
-            fetch(`${baseurl}/avolta/${lat}/${lng}/${distance}`, requestOptions)
+            fetch("{{ route('locais') }}", requestOptions)
                 .then(response => response.json())
                 .then(posts => {
                     vote.style.display = 'none'
-
                     posts.data.map((post, indice) => {
                         novo = novidade(post.created_at)
                         hot = hotTag(post.likes)
@@ -419,6 +719,8 @@
 
                         let destroy = user_id == post.user_id || user_id == 1 ?
                             `<span class="destroy" id="destroy"  data-id="${post.id}">delete</span>` : ''
+                        console.log(size)
+
 
 
                         let content_window =
@@ -505,6 +807,8 @@
                 }).catch(error => console.log('error', error));
 
         }
+
+
 
 
         ////TAGS/////
@@ -626,7 +930,7 @@
                 .then(response => response.text())
                 .then(result => {
                     buildingLayers.clearLayers(); // remove existing marke
-                    getLocais(map.getCenter().lat, map.getCenter().lng)
+                    getLocais()
 
                 })
                 .catch(error => console.log('error', error));
@@ -666,6 +970,8 @@
                 .then(function(text) {
                     console.log('like enviado')
 
+
+
                 })
                 .catch(function(error) {
                     console.log(error)
@@ -699,8 +1005,9 @@
                 vote.innerHTML = 'obrigado / thank you'
 
                 setTimeout(() => {
-                    console.log(map.getCenter().lat);
-                    getLocais(map.getCenter().lat, map.getCenter().lng)
+                    
+            console.log(map.getCenter().lat);
+                    getLocais()
                     vote.style.display = 'none'
                 }, 2000);
 
@@ -722,7 +1029,7 @@
                 // map.closePopup()
 
                 setTimeout(() => {
-                    getLocais(map.getCenter().lat, map.getCenter().lng)
+                    getLocais()
                     vote.style.display = 'none'
                 }, 2000);
 
@@ -750,7 +1057,7 @@
                     /// map.closePopup()
 
                     setTimeout(() => {
-                        getLocais(map.getCenter().lat, map.getCenter().lng)
+                        getLocais()
                         vote.style.display = 'none'
                     }, 2000);
 
@@ -836,8 +1143,6 @@
 
         }
 
-     
-
         /////////////////// PESQUISA  CIDADES///////////////
         // minimal configure
         var marker = {};
@@ -855,8 +1160,7 @@
             }) => {
                 // You can also use static files
                 // const api = '../static/search.json'
-                const api =
-                    `https://nominatim.openstreetmap.org/search?format=geojson&limit=5&city=${encodeURI(currentValue)}`;
+                const api = `https://nominatim.openstreetmap.org/search?format=geojson&limit=5&city=${encodeURI(currentValue)}`;
                 //const api = `https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/suggest?text=${encodeURI(currentValue)}&maxSuggestions=5&f=pjson`;
 
                 return new Promise((resolve) => {
@@ -920,7 +1224,6 @@
 
                 // sets the view of the map
                 map.setView([cord[1], cord[0]], 15);
-                getLocais(cord[1], cord[0])
 
 
                 // removing the previous marker
@@ -956,7 +1259,7 @@
         });
 
         /////////////////load map  ///////
-        window.onload = getLocais('39.4039', '-9.1336')
+        window.onload = getLocais()
     </script>
 
 

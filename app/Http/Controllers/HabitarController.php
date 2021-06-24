@@ -35,6 +35,8 @@ class HabitarController extends Controller
         return response()->json(['data' => $locais]);
     }
 
+    
+
     /**
      * get tags by distance lat lng 
      * @return \Illuminate\Http\Response
@@ -140,11 +142,10 @@ class HabitarController extends Controller
      */
     public function destroy(habitar $habitar)
     {
-        if(Auth()->user()->id ==$habitar->user_id || Gate::authorize('manage-users')){
-          return $habitar->delete();
-        }else{
+        if (Auth()->user()->id == $habitar->user_id || Gate::authorize('manage-users')) {
+            return $habitar->delete();
+        } else {
             return route('/map');
         }
-
     }
 }

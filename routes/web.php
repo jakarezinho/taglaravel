@@ -39,11 +39,14 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 })->name('map');
 */
 
+///crud
 Route::get('locais', [HabitarController::class, 'index'])->name('locais');
 Route::post('addlocal', [HabitarController::class, 'store'])->name('addlocal');
 Route::post('destroy/{habitar}', [HabitarController::class, 'destroy'])->name('destroy');
 
+///// gps
 Route::get('avolta/{lat}/{lng}/{distance}', [HabitarController::class, 'avolta'])->name('avolta');
+
 ///dislikes
 Route::get('dislikes/', [HabitarController::class, 'tagsdislikes'])->name('dislikes');
 

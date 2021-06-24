@@ -12,137 +12,18 @@
     <link
         href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
         rel="stylesheet">
+        <!--css app-->
+    <link rel="stylesheet" href="{{ asset('template/css/app.css') }}" />
 </head>
-<style>
-    :root {
-        --blanc: #FFF;
-        --nav:#dc9044;
-        --color1:#86BEC0;
-        --noir: #000;
-        --rouge: #ee1a1a;
-        --shadow: #131111;
-        --tableau: #E6E4E0;
-        --shadow_map: text-shadow: 1px 1px 0 var(--shadow), 1px 2px 0 var(--shadow), 3px 3px 0 var(--shadow), -1px -1px 0 var(--shadow), 1px -1px 0 var(--shadow), -1px 1px 0 var(--shadow), 0 1px 0 var(--shadow);
-    }
 
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-        font-family: 'Nunito', sans-serif;
-    }
-
-    body{
-        background-color: var(--tableau);
-    }
-    hr{
-       margin-left:10%;
-       margin-right: 10%;
-       margin-top: 100px;
-       margin-bottom: 50px;
-       border-top: 1px solid var(--tableau);
-   
-    }
-
-
-    .container {
-        
-        width: 100%;
-        height: 100vh; 
-        padding: 20px;
-    }
-
-    .header {
-        margin-top: 20px;
-        font-size: 30px;
-        display: flex;
-
-    }
-
-
-    .header div {
-        width: calc(100% - 100px);
-        height: auto;
-
-
-    }
-
-    .header div small {
-        font-size: 14px;
-
-
-    }
-    /*nav*/
-
-    .nav{
-        padding: 20px;
-        text-align: right;
-    }
-    .nav p{
-         display: inline;
-         padding-left: 5px;
-    }
-    .icon{
-        width: 20px;
-        height: 20px;
-    }
-
-    .map a {
-        background-color: var(--noir);
-        font-size: 20px;
-        color: var(--blanc);
-        padding: 20px;
-        text-decoration: none;
-        border-radius: 5px;
-    }
-    .map a:hover{
-        background-color: var(--rouge);
-
-    }
-    .map {
-         margin-top: 50px;
-         margin-bottom:50px;
-        
-        
-    }
-
-    .homeintro {
-        padding-top: 35px;
-        font-size: 20px;
-    } 
-   .section{
-        color: #978787;
-    
-    }
-
-    
-   
-
-    .beta {
-        font-size: 14px;
-    }
-
-    /* RESPONSIVE*/
-    @media only screen and (max-width: 960px) {
-        .header {
-            flex-direction: column;
-            max-width: 100vw;
-        }
-
-        .header div {
-            width: 100%
-        }
-
-
-    }
-
-</style>
 
 <body>
     <div class="container">
+        
         <div class="nav">
             @if (Route::has('login'))
-                <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
+           
+              
                     @auth
                        <p> <a href="{{ url('/dashboard') }}" class="text-sm text-gray-700 underline">Dashboard</a></p>
                     @else
@@ -152,7 +33,7 @@
                            <p> <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 underline">Register</a></p>
                         @endif
                     @endauth
-                </div>
+            
             @endif
         </div>
         <div class="header">
