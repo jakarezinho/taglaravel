@@ -12,28 +12,29 @@
     <link
         href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
         rel="stylesheet">
-        <!--css app-->
+    <!--css app-->
     <link rel="stylesheet" href="{{ asset('template/css/app.css') }}" />
 </head>
 
 
 <body>
     <div class="container">
-        
+
         <div class="nav">
             @if (Route::has('login'))
-           
-              
-                    @auth
-                       <p> <a href="{{ url('/dashboard') }}" class="text-sm text-gray-700 underline">Dashboard</a></p>
-                    @else
-                        <p><a href="{{ route('login') }}" class="text-sm text-gray-700 underline">Log in</a></p>
 
-                        @if (Route::has('register'))
-                           <p> <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 underline">Register</a></p>
-                        @endif
-                    @endauth
-            
+
+                @auth
+                    <p> <a href="{{ url('/dashboard') }}" class="text-sm text-gray-700 underline">Dashboard</a></p>
+                @else
+                    <p><a href="{{ route('login') }}" class="text-sm text-gray-700 underline">Log in</a></p>
+
+                    @if (Route::has('register'))
+                        <p> <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 underline">Register</a>
+                        </p>
+                    @endif
+                @endauth
+
             @endif
         </div>
         <div class="header">
@@ -193,42 +194,63 @@
                 <h1>A vida da cidade <span class="beta">(Beta)</span></h1>
                 <h2>Conhecer melhor cidades e bairros</h2>
 
-                <p>Mapa colaborativo adicionar suas próprias dicas e anotações. Votar e comfirmar as outras anotações </p>
+                <p>Mapa colaborativo adicionar suas próprias dicas e anotações. Votar e comfirmar as outras anotações
+                </p>
                 <div class="homeintro">
                     @if (Route::has('login'))
-                    @auth
-                        <p><strong> Hello {{ Auth::user()->name }} </strong> Anotações e dicas perto de si insultos
-                            prefira o humor </p>
+                        @auth
+                            <p><strong> Hello {{ Auth::user()->name }} </strong> Anotações e dicas perto de si insultos
+                                prefira o humor </p>
 
 
-                    @else
-                        <p> Para escrever no mapa deve estar conectado <span> <a href="{{ route('login') }}" class="">Login</a></span> </p>
+                        @else
+                            <p> Para escrever no mapa deve estar conectado <span> <a href="{{ route('login') }}"
+                                        class="">Login</a></span> </p>
 
-                        @if (Route::has('register'))
-                            <p><small>Não tem conta ? <a href="{{ route('register') }}" >Register</a></small> </p>
+                            @if (Route::has('register'))
+                                <p><small>Não tem conta ? <a href="{{ route('register') }}">Register</a></small> </p>
 
-                        @endif
-                    @endauth
-                    
-                    
+                            @endif
+                        @endauth
+
+
                     @endif
-                   <p class="map"> <a  href="{{ route('map') }}"> Ver dicas no mapa »</a></p>
+                    <p class="map"> <a href="{{ route('map') }}"> Ver dicas no mapa »</a></p>
                 </div>
-               
+
                 <div class="homeintro section">
 
-                   <p> Cada vez que vou para um novo lugar é difícil descobrir para que partes da cidade devo ir fora do centro turístico. Sei que 90% das pessoas que vão para um novo local ou cidade não terá
-                    nenhuma idéia tambéml . Os centros turísticos  são uma área falsa que muitas vezes não têm nada a ver com a realidade local</p>
-                 
-               
+                    <p> Cada vez que vou para um novo lugar é difícil descobrir para que partes da cidade devo ir fora
+                        do centro turístico.  90% das pessoas que vão para um novo local ou cidade não terá
+                        nenhuma idéia tambéml .Os centros turísticos  são uma área falsa que muitas vezes não têm nada
+                        a ver com a realidade local.</p>
+
+
                 </div>
 
 
             </div>
         </div>
-        <div class="header">
-            <p> sasasasa</p>
+        <div class="infos">
+            <div>
+                <p> <img src="{{ url('template/images/mapa.png') }}" alt="escrever no mapa"></p>
+                <h2>Mapa colaborativo</h2>
+                <p>Pesquisar cidades e bairros no mapa ver dicas e anotações. </p>
+        
+            </div>
+            <div>
+                <p> <img src="{{ url('template/images/escreve.png') }}" alt="escrever no mapa"></p>
+                <h2> Escrever no mapa</h2>
+                <p>Escrever anotações e dicas no mapa sobre locais que conhece bem, preferir o humor aos insultos... </p>
+            </div>
+            <div>
+                <p> <img src="{{ url('template/images/vote.png') }}" alt="escrever no mapa"></p>
+                <h2> Votar</h2>
+                <p>Votar nas dicas de outros utilizadores, quantos mais votos tiveram as anotaçõs maior será o texto. </p>
+            </div>
+
         </div>
+        <p class="love">Hot map mapa colaborativo - {{date("Y")}}</p>
 
 
     </div>

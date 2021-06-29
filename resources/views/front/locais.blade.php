@@ -288,10 +288,10 @@
     <div id="vote"> vote</div>
     <div class="main-container">
         <div class="tag-text-box"> <input type="text" maxlength="40" id="tag" placeholder="tag" /> <button id="envia"
-                class="enable ">
+                class="env">
                 enviar</button></div>
-        <button id="escreve" class="enable escreve"> Escreve</button>
-        <button id="stop" class="enable stop"> Stop</button>
+        <div id="escreve" class="enable escreve"><img src="{{ url('template/images/escreve.png') }}" alt="escrever no mapa"></div>
+        <div id="stop" class="enable stop"> <img src="{{ url('template/images/stop.png') }}" alt="escrever no mapa"></div>
         <div id="map"></div>
 
     </div>

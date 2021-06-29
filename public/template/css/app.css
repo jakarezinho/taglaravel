@@ -2,6 +2,7 @@
 
 :root {
     --blanc: #FFF;
+    --gris: #978787;
     --nav: #dc9044;
     --color1: #86BEC0;
     --noir: #000;
@@ -86,7 +87,9 @@ hr {
     height: 20px;
 }
 
-.map a {
+.map a,
+.map a:visited,
+.map a:active {
     background-color: var(--noir);
     font-size: 20px;
     color: var(--blanc);
@@ -110,7 +113,7 @@ hr {
 }
 
 .section {
-    color: #978787;
+    color: var(--gris);
 }
 
 .beta {
@@ -270,7 +273,7 @@ hr {
     border-radius: 50%;
 }
 
-.enable {
+.env {
     padding: 10px;
     background-color: var(--noir);
     color: var(--blanc);
@@ -293,8 +296,15 @@ hr {
     top: 100px;
 }
 
-.active {
-    background-color: var(--rouge);
+.enable.stop img,
+.enable.escreve img {
+    height: 80px;
+    width: 80px;
+}
+
+.active img {
+    box-shadow: 0 0 1em var(--rouge);
+    border-radius: 50px;
     display: block;
 }
 
@@ -358,10 +368,6 @@ hr {
     text-align: center;
 }
 
-.homeintro p {
-    padding-top: 40px
-}
-
 .homeintro {
     padding-top: 20px;
     font-size: 20px;
@@ -373,6 +379,44 @@ hr {
 
 .beta {
     font-size: 14px;
+}
+
+
+/*INFOS*/
+
+.infos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+.infos>div {
+    width: 300px;
+    height: 300px;
+    margin-right: 10px;
+    text-align: center;
+}
+
+.infos>div h2 {
+    padding-bottom: 20px;
+}
+
+
+/*links*/
+
+a:visited,
+a:active {
+    color: var(--noir);
+}
+
+.love {
+    text-align: center;
+    font-size: 12px;
+    padding-bottom: 50px;
+    padding-top: 50px;
+    color: var(--gris);
 }
 
 
