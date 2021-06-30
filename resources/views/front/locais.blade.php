@@ -244,7 +244,7 @@
             </div>
 
         </div>
-        ssSsS
+       
     </div>
     <!--//-->
     <div class="content">
@@ -258,8 +258,8 @@
                         @csrf
                         <a href="{{ route('logout') }}"
                             onclick="event.preventDefault();
-                                                                                                 this.closest('form').submit();">
-                            sair
+                                                                                                         this.closest('form').submit();">
+                            Logout
                         </a>
                     </form>
                 </span>
@@ -290,8 +290,10 @@
         <div class="tag-text-box"> <input type="text" maxlength="40" id="tag" placeholder="tag" /> <button id="envia"
                 class="env">
                 enviar</button></div>
-        <div id="escreve" class="enable escreve"><img src="{{ url('template/images/escreve.png') }}" alt="escrever no mapa"></div>
-        <div id="stop" class="enable stop"> <img src="{{ url('template/images/stop.png') }}" alt="escrever no mapa"></div>
+        <div id="escreve" class="enable escreve"><img src="{{ url('template/images/escreve.png') }}"
+                alt="escrever no mapa"></div>
+        <div id="stop" class="enable stop"> <img src="{{ url('template/images/stop.png') }}" alt="escrever no mapa">
+        </div>
         <div id="map"></div>
 
     </div>
@@ -304,7 +306,8 @@
         </script>
 
     @endauth
-    <script>
+    <script type="module">
+        import confetti from 'https://cdn.skypack.dev/canvas-confetti';
         var map = L.map('map', {
             zoomControl: false
         }).setView([39.4039, -9.1336], 16);
@@ -339,6 +342,7 @@
         let detail
         let active
         let size
+        let latlng
         let rot = Math.random() * (20 - -20) + -20;
         let action
         const baseurl = '{{ url('/') }}'
@@ -382,7 +386,7 @@
             buildingLayers.clearLayers()
 
             getLocais(pos.lat, pos.lng)
-            
+
             console.log(map.getCenter().lat);
         });
 
@@ -393,7 +397,7 @@
             vote.style.display = 'block'
             vote.innerHTML = 'Loading...'
             buildingLayers.clearLayers()
-            
+
             let thisLayer = L.popup({})
 
             var bounds = L.latLngBounds()
@@ -413,8 +417,8 @@
                     vote.style.display = 'none'
 
                     posts.data.map((post, indice) => {
-                        novo = novidade(post.created_at)
-                        hot = hotTag(post.likes)
+                        let novo = novidade(post.created_at)
+                        let hot = hotTag(post.likes)
                         size = sizeTag(20, post.likes)
 
                         let destroy = user_id == post.user_id || user_id == 1 ?
@@ -429,7 +433,7 @@
                         latlng = [post.lat, post.lng]
                         bounds.extend(latlng)
 
-                        myTextLabel = L.marker([post.lat, post.lng], {
+                        let myTextLabel = L.marker([post.lat, post.lng], {
                             icon: L.divIcon({
                                 className: 'my-labels', // Set class for CSS styling
                                 html: `<div style="transform: rotate(${Math.random() * (20 - -20) +-20}deg);">${hot}<br>
@@ -488,7 +492,7 @@
                         ///map
                         latlng = [post.lat, post.lng]
                         bounds.extend(latlng)
-                        mydislike = L.marker([post.lat, post.lng], {
+                        let mydislike = L.marker([post.lat, post.lng], {
                             icon: L.divIcon({
                                 className: 'my-labels', // Set class for CSS styling
                                 html: bad,
@@ -635,7 +639,6 @@
         //// FIN escreve tags /////
 
 
-
         ///////////////////////////////////LIKES //////////////////////////////
 
         //// ENVIA LIKE //////
@@ -697,11 +700,19 @@
 
                 vote.style.display = 'block'
                 vote.innerHTML = 'obrigado / thank you'
+                
 
                 setTimeout(() => {
                     console.log(map.getCenter().lat);
                     getLocais(map.getCenter().lat, map.getCenter().lng)
                     vote.style.display = 'none'
+                    confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: {
+                        y: 0.6
+                    }
+                });
                 }, 2000);
 
             })
@@ -836,7 +847,7 @@
 
         }
 
-     
+
 
         /////////////////// PESQUISA  CIDADES///////////////
         // minimal configure
