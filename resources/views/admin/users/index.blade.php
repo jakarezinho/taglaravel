@@ -39,6 +39,10 @@
                                                 User
                                             </th>
                                             <th
+                                            class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                            Tags
+                                        </th>
+                                            <th
                                                 class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                                 Email
                                             </th>
@@ -67,10 +71,20 @@
                                                             </div>
                                                             <div class="ml-3">
                                                                 <p class="text-gray-900 whitespace-no-wrap">
-                                                                    {{ $user->name }}
+                                                                    
+                                                                    {{ $user->name}}
                                                                 </p>
                                                             </div>
                                                         </div>
+                                                    </td>
+                                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                        <p class="text-gray-900 whitespace-no-wrap"> 
+                                                            <ul>
+                                                                @foreach ($user->locais()->get() as $local )
+                                                                   <li>  {{$local->title}} / {{$local->adress}} </li>
+                                                                @endforeach
+                                                               </ul>
+                                                        </p>
                                                     </td>
                                                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                         <p class="text-gray-900 whitespace-no-wrap"> {{ $user->email }}

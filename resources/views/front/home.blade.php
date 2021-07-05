@@ -218,39 +218,44 @@
                     <p class="map"> <a href="{{ route('map') }}"> Ver dicas no mapa »</a></p>
                 </div>
 
-                <div class="homeintro section">
+                <div class="homeintro">
 
-                    <p> Cada vez que vou para um novo lugar é difícil descobrir para que partes da cidade devo ir fora
-                        do centro turístico. 90% das pessoas que vão para um novo local ou cidade não terá
-                        nenhuma ideia também. Os centros turísticos são uma área falsa que muitas vezes não tem nada
+                    <p> Mapa a tendência humorística de uma realidade séria a do
+                        relacionamento das localidades, bairros e territórios como os fenômenos como turismo e
+                        desenvolvimento urbanístico. Os centros turísticos são uma área falsa que muitas vezes não tem
+                        nada
                         a ver com a realidade local.</p>
-
-
                 </div>
 
 
             </div>
-        </div>
-        <div class="infos">
-            <div>
-                <p> <img src="{{ url('template/images/mapa.png') }}" alt="escrever no mapa"></p>
-                <h2>Mapa colaborativo</h2>
-                <p>Pesquisar cidades e bairros no mapa ver dicas e anotações de outros utilizadores. </p>
-        
-            </div>
-            <div>
-                <p> <img src="{{ url('template/images/escreve.png') }}" alt="escrever no mapa"></p>
-                <h2> Escrever no mapa</h2>
-                <p>Escrever anotações e dicas no mapa sobre locais que conhece bem, preferir o humor aos insultos... </p>
-            </div>
-            <div>
-                <p> <img src="{{ url('template/images/vote.png') }}" alt="escrever no mapa"></p>
-                <h2> Votar</h2>
-                <p>Votar nas dicas de outros utilizadores, quantos mais votos tiveram as anotaçõs maior será o tamnaho do texto e a importância da anotação. </p>
-            </div>
+
 
         </div>
-        <p class="love">Hot map mapa colaborativo - {{date("Y")}}</p>
+    </div>
+    <div class="infos">
+        <div>
+            <p> <img src="{{ url('template/images/mapa.png') }}" alt="escrever no mapa"></p>
+            <h2>Mapa colaborativo</h2>
+            <p>Pesquisar cidades e bairros no mapa ver dicas e anotações de outros utilizadores. </p>
+
+        </div>
+        <div>
+            <p> <img src="{{ url('template/images/escreve.png') }}" alt="escrever no mapa"></p>
+            <h2> Escrever no mapa</h2>
+            <p>Escrever anotações e dicas no mapa sobre locais que conhece bem, preferir o humor aos insultos...
+            </p>
+        </div>
+        <div>
+            <p> <img src="{{ url('template/images/vote.png') }}" alt="escrever no mapa"></p>
+            <h2> Votar</h2>
+            <p>Votar nas dicas de outros utilizadores, quantos mais votos tiveram as anotaçõs maior será o tamnaho
+                do texto e a importância da anotação. </p>
+        </div>
+
+    </div>
+    <div class="love"><p><strong>INFOS:</strong><br> O mapa é conteudo produsido pelos utilizadores não podemos responsabolisar pelas informações introduzidas. Insultos o spam serão removidos automáticamente.</p></div>
+    <p class="love">Hot map mapa colaborativo - {{ date('Y') }}</p>
 
 
     </div>

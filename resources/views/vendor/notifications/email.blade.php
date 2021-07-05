@@ -38,7 +38,6 @@
 {{ $line }} 
 
 @endforeach
-<hr>
 <p>Este link de redefinição de senha irá expirar em 60 minutos.</p>
 <p>Se você não solicitou uma redefinição de senha, nenhuma ação adicional será necessária.</p>
  

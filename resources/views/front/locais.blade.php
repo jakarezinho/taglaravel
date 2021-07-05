@@ -234,17 +234,18 @@
                 </div>
                 <div class="homeintro">
 
-                    <p> Cada vez que vou para um novo lugar é difícil descobrir para que partes da cidade devo ir fora
-                        do centro turístico. Sei que 90% das pessoas que vão para um novo local ou cidade não terá
-                        nenhuma idéia tambéml . Os centros turísticos são uma área falsa que muitas vezes não têm nada a
-                        ver com a realidade local</p>
+                    <p> Mapa a tendência humorística de uma realidade séria a do
+                        relacionamento das localidades, bairros e territórios como os fenômenos como turismo e
+                        desenvolvimento urbanístico. Os centros turísticos são uma área falsa que muitas vezes não tem
+                        nada
+                        a ver com a realidade local.</p>
                 </div>
 
 
             </div>
 
         </div>
-       
+
     </div>
     <!--//-->
     <div class="content">
@@ -258,7 +259,7 @@
                         @csrf
                         <a href="{{ route('logout') }}"
                             onclick="event.preventDefault();
-                                                                                                         this.closest('form').submit();">
+                                                                                                                     this.closest('form').submit();">
                             Logout
                         </a>
                     </form>
@@ -299,14 +300,21 @@
     </div>
 
 
-
     @auth
         <script>
             let user_id = '{{ Auth::user()->id }}'
         </script>
 
+    @else
+
+        <script>
+            let user_id = null
+        </script>
+
     @endauth
+
     <script type="module">
+        import {filterWords,rgx,badWord} from "{{ asset('template/js/badwords.js') }}"
         import confetti from 'https://cdn.skypack.dev/canvas-confetti';
         var map = L.map('map', {
             zoomControl: false
@@ -327,7 +335,8 @@
         }).addTo(map);
 
         //// VARS /// 
-        user_id = typeof user_id != 'undefined' ? user_id : null
+       console.log(badWord('puta')) 
+        console.log(user_id)
         let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
         let vote = document.getElementById('vote')
         let tag = document.getElementById('tag')
@@ -387,7 +396,6 @@
 
             getLocais(pos.lat, pos.lng)
 
-            console.log(map.getCenter().lat);
         });
 
 
@@ -552,6 +560,7 @@
 
             ///ENVIA TAG /////
             envia.addEventListener('click', () => {
+              
                 if (tag.value == '') {
                     alert('Tag vazio')
                     return
@@ -562,7 +571,15 @@
                     return
 
                 }
-                enviaLocal()
+               
+            
+                if(badWord(tag.value)){
+                    console.log(badWord(tag.value))
+                    alert('BAD WORD!!')
+                    tag.value = ''
+                    return
+                }
+              enviaLocal()
                 escreve.classList.remove("active")
                 tag.value = ''
                 tagbox.style.display = 'none'
@@ -570,11 +587,11 @@
             })
 
             ////envia key up///
-            tag.addEventListener("keyup", ({
+           /* tag.addEventListener("keyup", ({
                 key
             }) => {
                 if (key === "Enter") {
-                    if (tag.value == '') {
+                    if (tag.value.length = 0) {
                         alert('tag vazio')
                         return
                     }
@@ -583,6 +600,7 @@
                         return
 
                     }
+                  
                     enviaLocal()
 
                     escreve.classList.remove("active")
@@ -591,6 +609,7 @@
 
                 }
             })
+            */
 
 
         }) ///// fim escreve/////
@@ -629,8 +648,16 @@
 
                 .then(response => response.text())
                 .then(result => {
+                    confetti({
+                        particleCount: 100,
+                        spread: 70,
+                        origin: {
+                            y: 0.6
+                        }
+                    });
                     buildingLayers.clearLayers(); // remove existing marke
                     getLocais(map.getCenter().lat, map.getCenter().lng)
+
 
                 })
                 .catch(error => console.log('error', error));
@@ -700,19 +727,19 @@
 
                 vote.style.display = 'block'
                 vote.innerHTML = 'obrigado / thank you'
-                
+
 
                 setTimeout(() => {
                     console.log(map.getCenter().lat);
                     getLocais(map.getCenter().lat, map.getCenter().lng)
                     vote.style.display = 'none'
                     confetti({
-                    particleCount: 100,
-                    spread: 70,
-                    origin: {
-                        y: 0.6
-                    }
-                });
+                        particleCount: 100,
+                        spread: 70,
+                        origin: {
+                            y: 0.6
+                        }
+                    });
                 }, 2000);
 
             })
