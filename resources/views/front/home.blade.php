@@ -6,6 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Hot map</title>
+    <meta name="description"
+        content="Mapa a tendência humorística de uma realidade séria a do relacionamento das localidades, bairros e territórios como os fenômenos como turismo e desenvolvimento urbanístico" />
+    <!-- Open Graph Tags -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Hot map" />
+    <meta property="og:description" content="mapa colaborativo adicionar suas próprias dicas e anotações" />
+    <meta property="og:url" content="http://habitar.test/" />
+    <meta property="og:site_name" content="Hot map" />
+    <meta property="og:image" content="{{ url('template/images/intro.png') }}" />
+    <meta property="og:locale" content="pt_PT" />
+    <meta name="twitter:creator" content="@pequenoeu" />
+    <meta property="og:image:width" content="1000px" />
+    <meta property="og:image:height" content="875px" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@pequenoeu" />
+    <meta property="fb:app_id" content="" />
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet">
@@ -254,7 +270,10 @@
         </div>
 
     </div>
-    <div class="love"><p><strong>INFOS:</strong><br> O mapa é conteudo produsido pelos utilizadores não podemos responsabolisar pelas informações introduzidas. Insultos o spam serão removidos automáticamente.</p></div>
+    <div class="love">
+        <p><strong>INFOS:</strong><br> O mapa é conteudo produsido pelos utilizadores não podemos responsabolisar pelas
+            informações introduzidas. Insultos o spam serão removidos automáticamente.</p>
+    </div>
     <p class="love">Hot map mapa colaborativo - {{ date('Y') }}</p>
 
 

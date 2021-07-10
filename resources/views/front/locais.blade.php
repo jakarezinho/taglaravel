@@ -6,7 +6,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Maps</title>
+    <title>Hot maps mapa cololaborativo</title>
+    <meta name="description"
+        content="Mapa a tendência humorística de uma realidade séria a do relacionamento das localidades, bairros e territórios como os fenômenos como turismo e desenvolvimento urbanístico" />
+
+    <!-- Open Graph Tags -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Hot map" />
+    <meta property="og:description" content="mapa colaborativo adicionar suas próprias dicas e anotações" />
+    <meta property="og:url" content="http://habitar.test/" />
+    <meta property="og:site_name" content="Hot map" />
+    <meta property="og:image" content="{{ url('template/images/intro.png') }}" />
+    <meta property="og:locale" content="pt_PT" />
+    <meta name="twitter:creator" content="@pequenoeu" />
+    <meta property="og:image:width" content="1000px" />
+    <meta property="og:image:height" content="875px" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@pequenoeu" />
+    <meta property="fb:app_id" content="" />
+
     <!-- Load Leaflet from CDN -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
         integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
@@ -259,7 +277,7 @@
                         @csrf
                         <a href="{{ route('logout') }}"
                             onclick="event.preventDefault();
-                                                                                                                     this.closest('form').submit();">
+                                                                                                                                     this.closest('form').submit();">
                             Logout
                         </a>
                     </form>
@@ -314,7 +332,11 @@
     @endauth
 
     <script type="module">
-        import {filterWords,rgx,badWord} from "{{ asset('template/js/badwords.js') }}"
+        import {
+            filterWords,
+            rgx,
+            badWord
+        } from "{{ asset('template/js/badwords.js') }}"
         import confetti from 'https://cdn.skypack.dev/canvas-confetti';
         var map = L.map('map', {
             zoomControl: false
@@ -335,7 +357,7 @@
         }).addTo(map);
 
         //// VARS /// 
-       console.log(badWord('puta')) 
+        console.log(badWord('puta'))
         console.log(user_id)
         let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
         let vote = document.getElementById('vote')
@@ -560,7 +582,7 @@
 
             ///ENVIA TAG /////
             envia.addEventListener('click', () => {
-              
+
                 if (tag.value == '') {
                     alert('Tag vazio')
                     return
@@ -571,15 +593,15 @@
                     return
 
                 }
-               
-            
-                if(badWord(tag.value)){
+
+
+                if (badWord(tag.value)) {
                     console.log(badWord(tag.value))
                     alert('BAD WORD!!')
                     tag.value = ''
                     return
                 }
-              enviaLocal()
+                enviaLocal()
                 escreve.classList.remove("active")
                 tag.value = ''
                 tagbox.style.display = 'none'
@@ -587,29 +609,29 @@
             })
 
             ////envia key up///
-           /* tag.addEventListener("keyup", ({
-                key
-            }) => {
-                if (key === "Enter") {
-                    if (tag.value.length = 0) {
-                        alert('tag vazio')
-                        return
-                    }
-                    if (tag.value.length <= 3) {
-                        alert('pouco texto?')
-                        return
+            /* tag.addEventListener("keyup", ({
+                 key
+             }) => {
+                 if (key === "Enter") {
+                     if (tag.value.length = 0) {
+                         alert('tag vazio')
+                         return
+                     }
+                     if (tag.value.length <= 3) {
+                         alert('pouco texto?')
+                         return
 
-                    }
-                  
-                    enviaLocal()
+                     }
+                   
+                     enviaLocal()
 
-                    escreve.classList.remove("active")
-                    tag.value = ''
-                    tagbox.style.display = 'none'
+                     escreve.classList.remove("active")
+                     tag.value = ''
+                     tagbox.style.display = 'none'
 
-                }
-            })
-            */
+                 }
+             })
+             */
 
 
         }) ///// fim escreve/////
