@@ -16,6 +16,7 @@ class habitar extends Model
         'lng',
         'adress',
         'user_id',
+        'emoji',
        
     ];
 

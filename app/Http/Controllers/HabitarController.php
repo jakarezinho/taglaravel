@@ -29,6 +29,8 @@ class HabitarController extends Controller
                 $join->on('habitars.id', '=', 'votes.habitars_id')
                     ->where('votes.action', '=', 'like');
             })->groupBy('habitars.id')
+            ->orderBy('habitars.id','desc')
+            ->limit(24)
             ->get();
 
 
@@ -94,6 +96,7 @@ class HabitarController extends Controller
             'adress' => $request['adress'],
             'lat' => $request['lat'],
             'lng' => $request['lng'],
+            'emoji' => $request['emoji'],
             'user_id' => Auth()->user()->id
 
         ]);

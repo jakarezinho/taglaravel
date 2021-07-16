@@ -37,6 +37,8 @@
     <div class="container">
 
         <div class="nav">
+            <img src="https://twemoji.maxcdn.com/v/13.0.0/72x72/1f3e1.png" width="24px" height="24px">
+          
             @if (Route::has('login'))
 
 
@@ -210,7 +212,9 @@
                 <h1>A vida da cidade <span class="beta">(Beta)</span></h1>
                 <h2>Conhecer melhor cidades e bairros</h2>
 
-                <p>Mapa colaborativo adicionar suas próprias dicas e anotações. Votar e comfirmar as outras anotações
+                <p>Mapa colaborativo adicionar suas próprias dicas e anotações <img
+                        src="https://twemoji.maxcdn.com/v/13.0.0/72x72/1f680.png" width="24px" height="24px">. Votar e
+                    comfirmar as outras anotações
                 </p>
                 <div class="homeintro">
                     @if (Route::has('login'))
@@ -236,8 +240,8 @@
 
                 <div class="homeintro">
 
-                    <p> Mapa a tendência humorística de uma realidade séria a do
-                        relacionamento das localidades, bairros e territórios como os fenômenos como turismo e
+                    <p> Mapa a tendência humorística de uma realidade séria o
+                        relacionamento das localidades, bairros e territórios com fenômenos como turismo e
                         desenvolvimento urbanístico. Os centros turísticos são uma área falsa que muitas vezes não tem
                         nada
                         a ver com a realidade local.</p>
@@ -260,6 +264,10 @@
             <p> <img src="{{ url('template/images/escreve.png') }}" alt="escrever no mapa"></p>
             <h2> Escrever no mapa</h2>
             <p>Escrever anotações e dicas no mapa sobre locais que conhece bem, preferir o humor aos insultos...
+                <strong> pode utilisar emojis!</strong> <img src="https://twemoji.maxcdn.com/v/13.0.0/72x72/1f601.png"
+                    width="24px" height="24px"> <img src="https://twemoji.maxcdn.com/v/13.0.0/72x72/1f680.png"
+                    width="24px" height="24px"> <img src="https://twemoji.maxcdn.com/v/13.0.0/72x72/26a1.png"
+                    width="24px" height="24px">
             </p>
         </div>
         <div>
