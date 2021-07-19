@@ -39,4 +39,16 @@ export function novidade(baseurl, post_date) {
     // Return str truncated with '...' concatenated to the end of str.
     return str.slice(0, num) + '...'
   }
+
+  //////// BAD LIST display bad tag in info//
+
+  export function badlist(postid) {
+    console.log(postid)
+    let badlist = document.getElementById('dis-' + postid)
+    if(badlist){
+            badlist.innerHTML = 'bad!!'
+    }
+
+
+}
   
