@@ -102,10 +102,6 @@ hr {
     margin-bottom: 50px;
 }
 
-.homeintro {
-    padding-top: 35px;
-    font-size: 20px;
-}
 
 .hometitle {
     padding-top: 60px;
@@ -405,6 +401,17 @@ hr {
     background-color: var(--nav);
     color: var(--blanc);
     padding-top: 1.5em;
+}
+
+.header_list {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.list_imag_top {
+    width: 500px;
+    height: auto;
 }
 
 /*links*/

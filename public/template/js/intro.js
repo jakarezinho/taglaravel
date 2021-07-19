@@ -35,7 +35,7 @@ export function getLocaisIntro(baseurl) {
                 let hot = hotTag(baseurl,post.likes)
                let size = sizeTag(20, post.likes)
                let list =document.createElement('li')
-               list.innerHTML =  `${def}<p class="prim">${post.title} ${hot} ${novo} </p><span class="adress"> ${truncateString(post.adress, 50)} <strong>likes:(${post.likes})</strong>  </span>`
+               list.innerHTML =  `${def}<p class="prim">${post.title} ${hot}  </p><span class="adress"> ${truncateString(post.adress, 50)} <strong>likes:(${post.likes})</strong>  </span>`
                intro.appendChild(list)
               
 
