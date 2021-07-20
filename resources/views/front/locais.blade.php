@@ -351,17 +351,15 @@
                     </svg>
                 </div>
 
-
             </div>
             <!--/INTRO-->
             <div class="homeintro center">
 
                 @auth
-                    <p><strong> Hello {{ Auth::user()->name }} </strong> <small>tags({{ Auth::user()->locais->count() }})</small>  Adicionar anotações ao mapa preferir
+                    <p><strong> Hello {{ Auth::user()->name }} </strong>
+                        <small>tags({{ Auth::user()->locais->count() }})</small> Adicionar anotações ao mapa preferir
                         humor
                         aos insultos... </p>
-
-
                 @else
                     <p> Para escrever no mapa deve estar conectado <span> <a href="{{ route('login') }}"
                                 class="">Login</a></span> <br>
@@ -370,7 +368,6 @@
                             <small> Não tem conta ? <a href="{{ route('register') }}" class="">Register</a>
                             </small>
                     </p>
-
 
                     @endif
 
@@ -401,7 +398,7 @@
                         @csrf
                         <a href="{{ route('logout') }}"
                             onclick="event.preventDefault();
-                                                                                                                                                                                                                                                         this.closest('form').submit();">
+                                                                                                                                                                                                                                                             this.closest('form').submit();">
                             Logout
                         </a>
                     </form>
@@ -423,14 +420,14 @@
 
     </div>
     <!---/search/-->
-    <div class="search">
+    <div class="search notranslate">
         <input type="text" autocomplete="off" id="search" class="full-width" placeholder="Procurar">
         <span class="material-icons-two-tone"> search</span>
     </div>
 
     <div id="vote"> vote</div>
     <div class="main-container">
-        <div class="tag-text-box"> <input type="text" minlength="3" maxlength="40" id="tag" placeholder="tag"
+        <div class="tag-text-box notranslate"> <input type="text"  minlength="3" maxlength="40" id="tag" placeholder="tag"
                 required /> <button id="envia" class="env"> enviar</button>
 
             <input type="hidden" id="emoji">
@@ -600,18 +597,18 @@
         let open = document.querySelector('#open')
         let dcm = document.querySelector('#dc')
 
-        open.innerHTML = '<span class="material-icons-two-tone">help_outline </span>'
+        open.innerHTML = '<span class="material-icons-two-tone notranslate">help_outline </span>'
         open.addEventListener("click", () => {
 
-            open.innerHTML = '<span class="material-icons-two-tone">close</span>'
+            open.innerHTML = '<span class="material-icons-two-tone notranslate">close</span>'
             if (dcm.classList.contains('dep')) {
 
-                open.innerHTML = '<span class="material-icons-two-tone">help_outline</span>'
+                open.innerHTML = '<span class="material-icons-two-tone notranslate">help_outline</span>'
 
             } else {
                 getLocaisdislike()
 
-                open.innerHTML = '<span class="material-icons-two-tone">close</span>'
+                open.innerHTML = '<span class="material-icons-two-tone notranslate">close</span>'
 
 
             }
@@ -823,6 +820,37 @@
                     tagbox.style.top = e.containerPoint.y + 'px'
                     tag.focus()
 
+
+                    ////////// ENVIA TAG ////////////////
+                    envia.addEventListener('click', () => {
+                        let x = tag.value
+
+                        if (x.length <= 3) {
+                            alert('texto curto...')
+                            return
+
+                        } else if (x.length > 40) {
+                            alert('texto longo max 40 caracters...')
+                            return
+
+                        }
+
+                        if (badWord(x)) {
+                            console.log(badWord(tag.value))
+                            alert('BAD WORD!!')
+                            tag.value = ''
+                            return
+                        }
+
+
+                        enviaLocal()
+                        escreve.classList.remove("active")
+                        tag.value = ''
+                        tagbox.style.display = 'none'
+
+                    })
+                    ////////
+
                 }
             })
             map.on('mousedown', (e) => {
@@ -831,34 +859,7 @@
             }) //
 
 
-            ///ENVIA TAG /////
-            envia.addEventListener('click', () => {
-                let x = tag.value
 
-                if (x.length <= 3 ) {
-                    alert('texto curto..')
-                    return
-
-                }else if (x.length > 40){
-                    alert('texto longo...')
-                    return
-
-                }
-
-                if (badWord(x)) {
-                    console.log(badWord(tag.value))
-                    alert('BAD WORD!!')
-                    tag.value = ''
-                    return
-                }
-
-
-                 enviaLocal()
-                escreve.classList.remove("active")
-                tag.value = ''
-                tagbox.style.display = 'none'
-
-            })
 
             ////envia key up///
             /* tag.addEventListener("keyup", ({
