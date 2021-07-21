@@ -359,7 +359,8 @@
                     <p><strong> Hello {{ Auth::user()->name }} </strong>
                         <small>tags({{ Auth::user()->locais->count() }})</small> Adicionar anotações ao mapa preferir
                         humor
-                        aos insultos... </p>
+                        aos insultos...
+                    </p>
                 @else
                     <p> Para escrever no mapa deve estar conectado <span> <a href="{{ route('login') }}"
                                 class="">Login</a></span> <br>
@@ -398,7 +399,7 @@
                         @csrf
                         <a href="{{ route('logout') }}"
                             onclick="event.preventDefault();
-                                                                                                                                                                                                                                                             this.closest('form').submit();">
+                                                                                                                                                                                                                                                                                 this.closest('form').submit();">
                             Logout
                         </a>
                     </form>
@@ -427,8 +428,8 @@
 
     <div id="vote"> vote</div>
     <div class="main-container">
-        <div class="tag-text-box notranslate"> <input type="text"  minlength="3" maxlength="40" id="tag" placeholder="tag"
-                required /> <button id="envia" class="env"> enviar</button>
+        <div class="tag-text-box notranslate"> <input type="text" minlength="3" maxlength="40" id="tag"
+                placeholder="tag" required /> <button id="envia" class="env"> enviar</button>
 
             <input type="hidden" id="emoji">
             <span class=" icon material-icons-outlined">emoji_emotions</span>
@@ -629,20 +630,30 @@
 
         ////////////// drag mamp load tags //////
         ////// MAP DRAGED///////////
-        map.on("dragend", () => {
-
-            tagbox.style.display = 'none'
-            let pos = map.getCenter()
-            buildingLayers.clearLayers()
-
-            getLocais(pos.lat, pos.lng)
+       let viewportHeight = window.innerHeight;
+        let viewportWidth = window.innerWidth*20/100;
+        map.on('dragend', (e) => {
+                // Drag event
+               let distance = e.target.dragging._draggable._newPos.distanceTo(e.target.dragging._draggable
+                    ._startPos);
+                if (distance >= viewportWidth) {
+                    tag.value = ''
+                    tagbox.style.display = 'none'
+                    let pos = map.getCenter()
+                    buildingLayers.clearLayers()
+                    getLocais(pos.lat, pos.lng)
+                }
 
         });
 
+       
 
+        console.log(viewportWidth+'-'+ viewportHeight );
+
+     
 
         ///////////////////// GET LOCAIS TAGS  //////////////////
-        function getLocais(lat, lng, distance = 5) {
+        function getLocais(lat, lng, distance = 3) {
             //// clear list intro
             intro.innerHTML = ''
             ////////////////////
@@ -821,42 +832,37 @@
                     tag.focus()
 
 
-                    ////////// ENVIA TAG ////////////////
-                    envia.addEventListener('click', () => {
-                        let x = tag.value
-
-                        if (x.length <= 3) {
-                            alert('texto curto...')
-                            return
-
-                        } else if (x.length > 40) {
-                            alert('texto longo max 40 caracters...')
-                            return
-
-                        }
-
-                        if (badWord(x)) {
-                            console.log(badWord(tag.value))
-                            alert('BAD WORD!!')
-                            tag.value = ''
-                            return
-                        }
-
-
-                        enviaLocal()
-                        escreve.classList.remove("active")
-                        tag.value = ''
-                        tagbox.style.display = 'none'
-
-                    })
-                    ////////
-
                 }
             })
-            map.on('mousedown', (e) => {
+            ////////// ENVIA TAG ////////////////
+            envia.addEventListener('click', () => {
+                let x = tag.value
 
+                if (x.length <= 3) {
+                    alert('texto curto...')
+                    return
+
+                } else if (x.length > 40) {
+                    alert('texto longo max 40 caracters...')
+                    return
+
+                }
+
+                if (badWord(x)) {
+                    console.log(badWord(tag.value))
+                    alert('BAD WORD!!')
+                    tag.value = ''
+                    return
+                }
+
+
+                enviaLocal()
+                escreve.classList.remove("active")
+                tag.value = ''
                 tagbox.style.display = 'none'
-            }) //
+
+            })
+            ////////
 
 
 
