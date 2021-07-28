@@ -94,14 +94,14 @@ hr {
 }
 
 .map a:hover {
-    background-color: var(--rouge);
+    background-color: var(--nav);
+    color: var(--noir);
 }
 
 .map {
     margin-top: 50px;
     margin-bottom: 50px;
 }
-
 
 .hometitle {
     padding-top: 60px;
@@ -137,6 +137,7 @@ hr {
 
 .leaflet-popup-content-wrapper {
     border-radius: 0px;
+    max-width: 200px;
 }
 
 /* ////// NAVIGATION /////  */
@@ -204,9 +205,8 @@ hr {
     font-weight: bold;
     line-height: 100%;
     white-space: normal;
-    color:#dfff7b;
-    
-    /* #eed086 #fde3c9 #ffecbf #ffff7a #dfff7b*/
+    color: #ecf794;
+    /* #eed086 #fde3c9 #ffecbf #ffff7a #dfff7b #bde444 #a1a863 #cfa57a #bbc375 #ecf794 #ebfb6d*/
 }
 
 .my-labels span.tag:first-letter {
@@ -400,8 +400,8 @@ hr {
     margin-top: 2em;
     padding: 1.2em;
     font-size: 1.8em;
-    background-color: var(--nav);
-    color: var(--blanc);
+    background-color: var(--noir);
+    color: var(--nav);
     padding-top: 1.5em;
 }
 
@@ -409,11 +409,6 @@ hr {
     margin-top: 10px;
     display: flex;
     justify-content: center;
-}
-
-.list_imag_top {
-    width: 500px;
-    height: auto;
 }
 
 /*links*/
@@ -485,14 +480,13 @@ a:visited, a:active {
     padding: 1em;
     background-color: #f2f2f2;
     border-radius: 0.5rem;
+    gap: 10px;
 }
 
 .introlist li {
- 
     font-size: 1.5em;
     line-height: 1em;
     padding-top: 10px;
-   
     padding-bottom: 10px;
 }
 
@@ -511,12 +505,11 @@ p.prim::first-letter {
     padding-bottom: 50px;
     text-align: center;
 }
-.bad{
+
+.bad {
     color: var(--rouge);
     font-size: 25px;
     font-style: italic;
-
-    
 }
 
 .center {
@@ -524,7 +517,6 @@ p.prim::first-letter {
 }
 
 /* RESPONSIVE*/
-
 
 @media only screen and (max-width: 1100px) {
     .header {
@@ -539,17 +531,16 @@ p.prim::first-letter {
         padding-top: 50px;
     }
     .introlist li {
-   
         text-align: center;
-       
+    }
+    #vote {
+        margin-top: 15em;
     }
 }
 
-@media (max-width: 300px)
-{
+@media (max-device-width: 400px) {
     .introlist ul {
         padding: 0em;
-        grid: none;
+        grid-template-columns: 1fr
     }
- 
 }
