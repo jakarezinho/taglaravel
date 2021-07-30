@@ -2,6 +2,12 @@
 
 :root {
     --blanc: #FFF;
+    --bleu: #2196f3;
+    --bleuprofond: #4460c7;
+    --tagdia: #ecf794;
+    --tagdarck: #bbc375;
+    --sundarck: 0;
+    --sundia: 1;
     --gris: #978787;
     --nav: #dc9044;
     --color1: #86BEC0;
@@ -10,6 +16,26 @@
     --shadow: #131111;
     --tableau: #E6E4E0;
     --shadow_map: text-shadow: 1px 1px 0 var(--shadow), 1px 2px 0 var(--shadow), 3px 3px 0 var(--shadow), -1px -1px 0 var(--shadow), 1px -1px 0 var(--shadow), -1px 1px 0 var(--shadow), 0 1px 0 var(--shadow);
+}
+
+.light-theme {
+    --tag: var(--tagdia);
+    --sun: var(--sundia);
+    --moon: var(--sundarck);
+}
+
+.dark-theme {
+    --tag: var(--tagdarck);
+    --sun: var(--sundarck);
+    --moon: var(--sundia);
+}
+
+.icon-sun {
+    opacity: var(--sun);
+}
+
+.icon-moon {
+    opacity: var(--moon);
 }
 
 * {
@@ -205,7 +231,7 @@ hr {
     font-weight: bold;
     line-height: 100%;
     white-space: normal;
-    color: #ecf794;
+    color: var(--tag);
     /* #eed086 #fde3c9 #ffecbf #ffff7a #dfff7b #bde444 #a1a863 #cfa57a #bbc375 #ecf794 #ebfb6d*/
 }
 
@@ -330,7 +356,7 @@ hr {
 
 .search {
     position: absolute;
-    left: 25px;
+    left: 22px;
     z-index: 100;
 }
 
@@ -338,7 +364,7 @@ hr {
     border: none;
     outline: none;
     padding: 10px;
-    margin-right: 10px;
+    margin-right: 20px;
     font-size: 1.35em;
     text-align: center;
     font-weight: 800;
@@ -514,6 +540,88 @@ p.prim::first-letter {
 
 .center {
     text-align: center;
+}
+
+/* DARCK MODE */
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 20px;
+    margin-top: 5px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 15px;
+    width: 15px;
+    left: 4px;
+    bottom: 2px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.switch input:checked+.slider {
+    background-color: var(--bleuprofond);
+}
+
+.switch input:focus+.slider {
+    box-shadow: 0 0 3px var(--bleu);
+}
+
+.switch input:checked+.slider:before {
+    -webkit-transform: translateX(15px);
+    -ms-transform: translateX(15px);
+    transform: translateX(15px);
+}
+
+/* Rounded sliders */
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+.theme-switcher .iconsiwch {
+    position: absolute;
+    left: 2px;
+    top: 2px;
+    width: 16px;
+    height: 16px;
+    color: var(--nav);
+    transition: .3s;
+}
+
+.iconsiwch.icon-moon {
+    left: 24px;
+}
+
+.iconsiwch.icon-sun {
+    left: 8px;
 }
 
 /* RESPONSIVE*/

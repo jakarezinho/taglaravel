@@ -58,11 +58,9 @@
     <!--css app-->
     <link rel="stylesheet" href="{{ asset('template/css/app.css') }}" />
 
-
-
 </head>
 
-<body>
+<body class="light-theme">
     <!--//nav-->
     <div class="menu">
         <div id="open"></div>
@@ -122,7 +120,7 @@
                         @csrf
                         <a href="{{ route('logout') }}"
                             onclick="event.preventDefault();
-                                                                                                                                                                                                                                                                                                                         this.closest('form').submit();">
+                                                                                                                                                                                                                                                                                                                                                                             this.closest('form').submit();">
                             Logout
                         </a>
                     </form>
@@ -141,7 +139,22 @@
         <input type="hidden" id="lat" placeholder="latitude" />
         <input type="hidden" id="lng" placeholder="longitude" />
         <input type="hidden" id="adress" placeholder="morada" />
-
+        <theme-switcher class="theme-switcher">
+       <label class="switch" for="darckmode">
+            <input type="checkbox" id="darckmode">
+            <span class="slider round"></span>
+            <svg class=" iconsiwch icon-moon" xmlns="http://www.w3.org/2000/svg" id="moon" fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+            </svg>
+            <svg class=" iconsiwch icon-sun" xmlns="http://www.w3.org/2000/svg" id="sun" fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 3v1-1zm0 17v1-1zm9-8h-1 1zM4 12H3h1zm14.364 6.364l-.707-.707.707.707zM6.343 6.343l-.707-.707.707.707zm12.021-.707l-.707.707.707-.707zM6.343 17.657l-.707.707.707-.707zM16 12a4 4 0 11-8 0 4 4 0 018 0v0z">
+                </path>
+            </svg>
+        </label>
+           </theme-switcher>
+       
     </div>
     <!---/search/-->
     <div class="search notranslate">
@@ -164,7 +177,8 @@
                 alt="escrever no mapa"></div>
         <div id="stop" class="enable stop"> <img src="{{ url('template/images/stop.png') }}" alt="escrever no mapa">
         </div>
-        <div id="map"></div>
+
+        <div class id="map"></div>
 
     </div>
 
@@ -216,12 +230,12 @@
             villeName
         } from "{{ asset('template/js/helpers.js') }}";
 
-
+        ///// map var
         var map = L.map('map', {
             zoomControl: false
         }).setView([39.4039, -9.1336], 16);
-
-        L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+        ///// MAP VARS 
+        var options = {
             attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
             maxZoom: 19,
             minZoom: 15,
@@ -229,7 +243,18 @@
             tileSize: 512,
             zoomOffset: -1,
             accessToken: 'pk.eyJ1IjoibWFwYXVyYmFubyIsImEiOiJja215cm8xYzIwNHp1Mnh0M2QwZ3puZmkwIn0.ig4jIr-gZzUfuIX8YZB0ug'
-        }).addTo(map);
+        }
+        const urltiles = 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}'
+
+        //// MAPA DIA
+        const dia = L.tileLayer(urltiles, options)
+
+        dia.addTo(map);
+
+        ///// MAPA NOITE
+        options.id = "mapbox/dark-v10"
+        const noite = L.tileLayer(urltiles, options)
+
         ///zoom control
         L.control.zoom({
             position: 'bottomright'
@@ -247,6 +272,7 @@
         let adress = document.getElementById('adress')
         let stop = document.getElementById('stop')
         let init = document.querySelector('.map')
+        let thememode = document.querySelector('body')
         let geral
         let detail
         let active
@@ -260,6 +286,21 @@
         let intro = document.getElementById('intro')
         let loading = document.getElementById('loading')
 
+
+        /////DARCK MODE
+        const themeSwitch = document.querySelector('#darckmode')
+        themeSwitch.addEventListener('change', () => {
+            document.body.classList.toggle('dark-theme')
+            if (thememode.classList.contains('dark-theme')) {
+                map.removeLayer(dia)
+                noite.addTo(map)
+            } else {
+                map.removeLayer(noite)
+                dia.addTo(map)
+
+            }
+
+        });
 
         ///// EMOJI
         const trigger = document.querySelector('.icon');
@@ -376,7 +417,7 @@
             vote.style.display = 'block'
             vote.innerHTML = 'Loading...'
             buildingLayers.clearLayers()
-            villeName(gcs ,lat, lng)
+            villeName(gcs, lat, lng)
 
             let thisLayer = L.popup({})
 
@@ -428,8 +469,8 @@
                             icon: L.divIcon({
                                 className: 'my-labels', // Set class for CSS styling
                                 html: `<div style="transform: rotate(${Math.random() * (20 - -20) +-20}deg);">${hot}<br>
-                                ${novo}<span class="tag" style="font-size:${size}px; transform: rotate(20deg);">
-                                ${post.title}</span><br>${iconEmoji} <br> By: ${post.name}</div>`,
+                                ${novo}<span class="tag" data-theme="dark" style="font-size:${size}px; transform: rotate(20deg);">
+                                ${post.title}</span><br>${iconEmoji} </div>`,
                                 iconAnchor: [100, 0]
                             }),
 
@@ -440,7 +481,7 @@
                         myTextLabel.addEventListener('click', (e) => {
                             thisLayer.setLatLng([post.lat, post.lng])
                                 .setContent(content_window)
-                             
+
                             //buildingLayers.clearLayers(); // remove existing markers
                             map.panTo([post.lat, post.lng]);
                             //thisLayer.addTo(mymap);
