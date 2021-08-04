@@ -57,7 +57,11 @@
     <script src="{{ asset('template/js/autocomplete.js') }}"></script>
     <!--css app-->
     <link rel="stylesheet" href="{{ asset('template/css/app.css') }}" />
-
+<style>
+    .theme-switcher {
+   
+    }
+</style>
 </head>
 
 <body class="light-theme">
@@ -120,13 +124,13 @@
                         @csrf
                         <a href="{{ route('logout') }}"
                             onclick="event.preventDefault();
-                                                                                                                                                                                                                                                                                                                                                                             this.closest('form').submit();">
+                                                                                                                                                                                                                                                                                                                                                                                 this.closest('form').submit();">
                             Logout
                         </a>
                     </form>
                 </span>
 
-                <span> <a href="{{ url('/dashboard') }}" class="">Dashboard</a></span>
+                <span> <a href="{{ url('/dashboard') }}" class="">Dashboard  </a></span>
             @else
                 <span> <a href="{{ route('login') }}" class="">Log in</a></span>
 
@@ -139,22 +143,26 @@
         <input type="hidden" id="lat" placeholder="latitude" />
         <input type="hidden" id="lng" placeholder="longitude" />
         <input type="hidden" id="adress" placeholder="morada" />
+      
         <theme-switcher class="theme-switcher">
-       <label class="switch" for="darckmode">
-            <input type="checkbox" id="darckmode">
-            <span class="slider round"></span>
-            <svg class=" iconsiwch icon-moon" xmlns="http://www.w3.org/2000/svg" id="moon" fill="none" viewBox="0 0 24 24">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
-            </svg>
-            <svg class=" iconsiwch icon-sun" xmlns="http://www.w3.org/2000/svg" id="sun" fill="none" viewBox="0 0 24 24">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M12 3v1-1zm0 17v1-1zm9-8h-1 1zM4 12H3h1zm14.364 6.364l-.707-.707.707.707zM6.343 6.343l-.707-.707.707.707zm12.021-.707l-.707.707.707-.707zM6.343 17.657l-.707.707.707-.707zM16 12a4 4 0 11-8 0 4 4 0 018 0v0z">
-                </path>
-            </svg>
-        </label>
-           </theme-switcher>
-       
+            <label class="switch" for="darckmode">
+                <input type="checkbox" id="darckmode">
+                <span class="slider round"></span>
+                <svg class=" iconsiwch icon-moon" xmlns="http://www.w3.org/2000/svg" id="moon" fill="none"
+                    viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z">
+                    </path>
+                </svg>
+                <svg class=" iconsiwch icon-sun" xmlns="http://www.w3.org/2000/svg" id="sun" fill="none"
+                    viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 3v1-1zm0 17v1-1zm9-8h-1 1zM4 12H3h1zm14.364 6.364l-.707-.707.707.707zM6.343 6.343l-.707-.707.707.707zm12.021-.707l-.707.707.707-.707zM6.343 17.657l-.707.707.707-.707zM16 12a4 4 0 11-8 0 4 4 0 018 0v0z">
+                    </path>
+                </svg>
+            </label>
+        </theme-switcher>
+
     </div>
     <!---/search/-->
     <div class="search notranslate">
