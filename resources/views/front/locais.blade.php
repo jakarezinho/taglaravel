@@ -12,10 +12,10 @@
 
     <!-- Open Graph Tags -->
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Hot map" />
+    <meta property="og:title" content="Bairros" />
     <meta property="og:description" content="mapa colaborativo adicionar suas próprias dicas e anotações" />
     <meta property="og:url" content="http://habitar.test/" />
-    <meta property="og:site_name" content="Hot map" />
+    <meta property="og:site_name" content="Bairros" />
     <meta property="og:image" content="{{ url('template/images/intro.jpg') }}" />
     <meta property="og:locale" content="pt_PT" />
     <meta name="twitter:creator" content="@pequenoeu" />
@@ -57,11 +57,7 @@
     <script src="{{ asset('template/js/autocomplete.js') }}"></script>
     <!--css app-->
     <link rel="stylesheet" href="{{ asset('template/css/app.css') }}" />
-<style>
-    .theme-switcher {
-   
-    }
-</style>
+
 </head>
 
 <body class="light-theme">
@@ -108,7 +104,7 @@
                 <ul id="intro"></ul>
             </div>
             <hr>
-            <p class="love">Hot map mapa colaborativo - 2021</p>
+            <p class="love">BAIRROS mapa colaborativo -{{ date('Y') }}</p>
         </div>
 
     </div>

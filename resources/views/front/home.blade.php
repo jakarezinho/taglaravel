@@ -159,7 +159,7 @@
         <p><strong>INFOS:</strong><br> O mapa é conteudo produsido pelos utilizadores não podemos responsabolisar pelas
             informações introduzidas. Insultos o spam serão removidos automáticamente.</p>
     </div>
-    <p class="love">Hot map mapa colaborativo - {{ date('Y') }}</p>
+    <p class="love">BAIRROS mapa colaborativo - {{ date('Y') }}</p>
 
 
     </div>
