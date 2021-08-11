@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Hot maps mapa cololaborativo</title>
+    <title>BAIRROS mapa cololaborativo</title>
     <meta name="description"
         content="Mapa a tendência humorística de uma realidade séria a do relacionamento das localidades, bairros e territórios como os fenômenos como turismo e desenvolvimento urbanístico" />
 
@@ -120,13 +120,13 @@
                         @csrf
                         <a href="{{ route('logout') }}"
                             onclick="event.preventDefault();
-                                                                                                                                                                                                                                                                                                                                                                                 this.closest('form').submit();">
+                                                                                                                                                                                                                                                                                                                                                                                                                 this.closest('form').submit();">
                             Logout
                         </a>
                     </form>
                 </span>
 
-                <span> <a href="{{ url('/dashboard') }}" class="">Dashboard  </a></span>
+                <span> <a href="{{ url('/dashboard') }}" class="">Dashboard </a></span>
             @else
                 <span> <a href="{{ route('login') }}" class="">Log in</a></span>
 
@@ -139,7 +139,7 @@
         <input type="hidden" id="lat" placeholder="latitude" />
         <input type="hidden" id="lng" placeholder="longitude" />
         <input type="hidden" id="adress" placeholder="morada" />
-      
+
         <theme-switcher class="theme-switcher">
             <label class="switch" for="darckmode">
                 <input type="checkbox" id="darckmode">
@@ -182,9 +182,10 @@
         <div id="stop" class="enable stop"> <img src="{{ url('template/images/stop.png') }}" alt="escrever no mapa">
         </div>
 
-        <div class id="map"></div>
 
+        <div class id="map"></div>
     </div>
+
 
 
     @auth
@@ -284,7 +285,20 @@
         let latlng
         let rot = Math.random() * (20 - -20) + -20;
         let action
+        let piclocal = {}
         const baseurl = '{{ url('/') }}'
+
+        const sinalicon = L.icon({
+            iconUrl: 'https://twemoji.maxcdn.com/v/13.0.0/72x72/1f4cc.png',
+            iconSize: [45, 45], // size of the icon
+
+        });
+        const iconsherch= L.icon({
+            iconUrl: 'https://twemoji.maxcdn.com/v/13.0.0/72x72/1f6a9.png',
+            iconSize: [45, 45], // size of the icon
+            iconAnchor:   [15, 52],
+
+        });
 
         ///VARS INTRO 
         let intro = document.getElementById('intro')
@@ -359,7 +373,7 @@
 
 
 
-        /////MENO OPEN///
+        /////MENU OPEN///
         let open = document.querySelector('#open')
         let dcm = document.querySelector('#dc')
 
@@ -393,15 +407,17 @@
         var bounds = L.latLngBounds()
 
 
-        ////////////// drag mamp load tags //////
+        ////////////// drag map load tags //////
         ////// MAP DRAGED///////////
         let viewportHeight = window.innerHeight;
-        let viewportWidth = window.innerWidth * 20 / 100;
+        let viewportWidth = window.innerWidth * 28 / 100;
         map.on('dragend', (e) => {
             tagbox.style.display = 'none'
+            marker_sinal()
             // Drag event
             let distance = e.target.dragging._draggable._newPos.distanceTo(e.target.dragging._draggable
                 ._startPos);
+
             if (distance >= viewportWidth) {
                 tag.value = ''
 
@@ -561,8 +577,16 @@
         }
 
 
-        ////TAGS/////
+        ////TAGS///// 
         /////////////////////////////// ESCREVE TAGS /////////////////////////////
+
+        //////// Add remove marker sinal
+        function marker_sinal() {
+            if (piclocal!= undefined) {
+                map.removeLayer(piclocal);
+            }
+        }
+        ////escreve
         escreve.addEventListener('click', () => {
 
             if (user_id == null) {
@@ -596,7 +620,16 @@
                     tagbox.style.top = e.containerPoint.y + 'px'
                     tag.focus()
 
+                    /////// marker sinal
+                    marker_sinal()
+                    piclocal = L.marker(e.latlng, {
+                            title: 'aqui',
+                            icon: sinalicon,
+                        })
+                        .addTo(map)
+                    ///////////
                 }
+
 
             })
 
@@ -622,38 +655,11 @@
                     escreve.classList.remove("active")
                     tag.value = ''
                     tagbox.style.display = 'none'
+                    marker_sinal()
 
                 }
-
-
             })
             ////////
-
-
-            ////envia key up///
-            /* tag.addEventListener("keyup", ({
-                 key
-             }) => {
-                 if (key === "Enter") {
-                     if (tag.value.length = 0) {
-                         alert('tag vazio')
-                         return
-                     }
-                     if (tag.value.length <= 3) {
-                         alert('pouco texto?')
-                         return
-
-                     }
-                   
-                     enviaLocal()
-
-                     escreve.classList.remove("active")
-                     tag.value = ''
-                     tagbox.style.display = 'none'
-
-                 }
-             })
-             */
 
 
         }) ///// fim escreve/////
@@ -664,11 +670,12 @@
             escreve.classList.remove("active")
             escreve.style.display = 'block'
             stop.style.display = 'none'
+            marker_sinal()
             tagbox.style.display = 'none'
 
         })
 
-        //////////// EMVIA LOCAL  ////////////
+        //////////// EMVIA LOCAL TAG ////////////
         function enviaLocal() {
             let data = new URLSearchParams();
             data.append("title", tag.value);
@@ -980,7 +987,8 @@
                 // create marker and add to map
                 marker = L.marker([cord[1], cord[0]], {
                         title: display_name,
-                        id: customId
+                        id: customId,
+                        icon: iconsherch,
                     })
                     .addTo(map)
                 // .bindPopup(display_name);

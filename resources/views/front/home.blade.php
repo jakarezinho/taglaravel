@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Hot map</title>
+    <title>BAIRROS</title>
     <meta name="description"
         content="Mapa a tendência humorística de uma realidade séria a do relacionamento das localidades, bairros e territórios como os fenômenos como turismo e desenvolvimento urbanístico" />
     <!-- Open Graph Tags -->
@@ -30,6 +30,7 @@
         rel="stylesheet">
     <!--css app-->
     <link rel="stylesheet" href="{{ asset('template/css/app.css') }}" />
+   
 </head>
 
 
@@ -37,15 +38,14 @@
     <div class="container">
 
         <div class="nav">
-            <img src="https://twemoji.maxcdn.com/v/13.0.0/72x72/1f3e1.png" width="24px" height="24px">
-
+         
             @if (Route::has('login'))
 
 
                 @auth
                     <p> <a href="{{ url('/dashboard') }}" class="text-sm text-gray-700 underline">Dashboard</a></p>
                 @else
-                    <p><a href="{{ route('login') }}" class="text-sm text-gray-700 underline">Log in</a></p>
+                    <p class="login_home"><a href="{{ route('login') }}" class="text-sm text-gray-700 underline">Log in</a></p>
 
                     @if (Route::has('register'))
                         <p> <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 underline">Register</a>
@@ -77,7 +77,7 @@
 
                         @else
                             <p> Para escrever no mapa deve estar conectado <span> <a href="{{ route('login') }}"
-                                        class="">Login</a></span> </p>
+                                        class="">Login »</a></span> </p>
 
                             @if (Route::has('register'))
                                 <p><small>Não tem conta ? <a href="{{ route('register') }}">Register </a> (grátis)</small> </p>

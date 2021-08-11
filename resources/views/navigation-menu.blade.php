@@ -153,6 +153,15 @@
             <x-jet-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-jet-responsive-nav-link>
+
+            <x-jet-responsive-nav-link href="{{ route('map') }}" :active="request()->routeIs('map')">
+                {{ __('map') }}
+            </x-jet-responsive-nav-link>
+            @can('manage-users')
+                  <x-jet-responsive-nav-link href="{{ route('admin') }}" :active="request()->routeIs('admin')">
+                {{ __('Admin users') }}
+            </x-jet-responsive-nav-link>
+            @endcan
         </div>
 
         <!-- Responsive Settings Options -->
