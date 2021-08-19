@@ -112,7 +112,7 @@ hr {
 
 /* mini botons login */
 
-.login_home a, .login_home a:visited, .login_home a:active {
+.nav .login_home a, .login_home a:visited, .login_home a:active {
     background-color: var(--noir);
     color: var(--blanc);
     text-decoration: none;
@@ -120,7 +120,7 @@ hr {
     border-radius: 5px;
 }
 
-.map a:link, .map a:visited, .map a:active {
+.map a, .map a:visited, .map a:active {
     background-color: var(--noir);
     font-size: 20px;
     color: var(--blanc);
@@ -168,6 +168,7 @@ hr {
     top: 0;
     overflow: hidden;
     z-index: 5;
+    
 }
 
 .leaflet-popup-content-wrapper {
@@ -292,7 +293,7 @@ hr {
     font-size: 11px;
 }
 
-.content a {
+.content a, .nav a {
     color: var(--noir)
 }
 

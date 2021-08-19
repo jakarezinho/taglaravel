@@ -52,7 +52,7 @@ export function badlist(postid) {
 }
 
 //////// DISPLAY NAME CITY ////////////////////
-export function villeName(gcs,lat, lng) {
+export function villeName(gcs, lat, lng) {
     gcs.reverse().latlng([lat, lng]).run((err, res, rep) => {
         if (err) {
             return;
@@ -65,4 +65,11 @@ export function villeName(gcs,lat, lng) {
     })
 
 }
+
+
+////DETECT MOBILE DEVICES
+export function detectDevise() {
+  return  /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)? true : false
+}
+
 

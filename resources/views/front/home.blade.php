@@ -54,6 +54,7 @@
                 @endauth
 
             @endif
+            <p> <a href="{{ route('map') }}">Map »</a></p>
         </div>
         <div class="header">
             <div class="disclamer">

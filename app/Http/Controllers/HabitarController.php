@@ -29,7 +29,7 @@ class HabitarController extends Controller
                 $join->on('habitars.id', '=', 'votes.habitars_id')
                     ->where('votes.action', '=', 'like');
             })->groupBy('habitars.id')
-            ->orderBy('habitars.id','desc')
+            ->orderBy('habitars.id', 'desc')
             ->limit(24)
             ->get();
 
@@ -37,7 +37,7 @@ class HabitarController extends Controller
         return response()->json(['data' => $locais]);
     }
 
-    
+
 
     /**
      * get tags by distance lat lng 
@@ -45,8 +45,6 @@ class HabitarController extends Controller
      */
     public function avolta($lat, $lng, $distance)
     {
-
-
         $locais = DB::table('habitars')
             ->selectRaw('users.name, users.profile_photo_path,habitars.*, ( 6371 * acos( cos( radians(?) ) * cos( radians( lat ) ) * cos( radians( lng ) - radians(?) ) + sin( radians(?) ) * sin( radians( lat ) ) ) ) AS distance,COUNT(votes.id) as likes', [$lat, $lng, $lat])
             ->leftJoin('users', 'users.id', '=', 'habitars.user_id')
@@ -58,7 +56,6 @@ class HabitarController extends Controller
             ->groupBy('habitars.id')
             ->orderBy('distance')
             ->get();
-
 
         return response()->json(['data' => $locais]);
     }
@@ -103,39 +100,7 @@ class HabitarController extends Controller
         return;
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\habitar  $habitar
-     * @return \Illuminate\Http\Response
-     */
-    public function show(habitar $habitar)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\habitar  $habitar
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(habitar $habitar)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\habitar  $habitar
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, habitar $habitar)
-    {
-        //
-    }
 
     /**
      * Remove the specified resource from storage.

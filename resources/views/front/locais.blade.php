@@ -103,6 +103,7 @@
 
                 <ul id="intro"></ul>
             </div>
+            <div id="municipios"> ddaddad</div>
             <hr>
             <p class="love">BAIRROS mapa colaborativo -{{ date('Y') }}</p>
         </div>
@@ -120,7 +121,7 @@
                         @csrf
                         <a href="{{ route('logout') }}"
                             onclick="event.preventDefault();
-                                                                                                                                                                                                                                                                                                                                                                                                                 this.closest('form').submit();">
+                                                                                                                                                                                                                                                                                                                                                                                                                                     this.closest('form').submit();">
                             Logout
                         </a>
                     </form>
@@ -232,7 +233,8 @@
             hotTag,
             truncateString,
             badlist,
-            villeName
+            villeName,
+            detectDevise
         } from "{{ asset('template/js/helpers.js') }}";
 
         ///// map var
@@ -253,7 +255,6 @@
 
         //// MAPA DIA
         const dia = L.tileLayer(urltiles, options)
-
         dia.addTo(map);
 
         ///// MAPA NOITE
@@ -264,6 +265,7 @@
         L.control.zoom({
             position: 'bottomright'
         }).addTo(map);
+
 
         //// VARS /// 
 
@@ -293,10 +295,10 @@
             iconSize: [45, 45], // size of the icon
 
         });
-        const iconsherch= L.icon({
+        const iconsherch = L.icon({
             iconUrl: 'https://twemoji.maxcdn.com/v/13.0.0/72x72/1f6a9.png',
             iconSize: [45, 45], // size of the icon
-            iconAnchor:   [15, 52],
+            iconAnchor: [15, 52],
 
         });
 
@@ -410,14 +412,16 @@
         ////////////// drag map load tags //////
         ////// MAP DRAGED///////////
         let viewportHeight = window.innerHeight;
-        let viewportWidth = window.innerWidth * 28 / 100;
+        let viewportWidth 
+        detectDevise() ? viewportWidth= window.innerWidth *50/100 :viewportWidth = window.innerWidth * 30 / 100;
+      
         map.on('dragend', (e) => {
             tagbox.style.display = 'none'
             marker_sinal()
             // Drag event
             let distance = e.target.dragging._draggable._newPos.distanceTo(e.target.dragging._draggable
                 ._startPos);
-
+  console.log(viewportWidth +'---distance'+distance)
             if (distance >= viewportWidth) {
                 tag.value = ''
 
@@ -582,7 +586,7 @@
 
         //////// Add remove marker sinal
         function marker_sinal() {
-            if (piclocal!= undefined) {
+            if (piclocal != undefined) {
                 map.removeLayer(piclocal);
             }
         }
@@ -609,15 +613,21 @@
                         adress.value = res.address.LongLabel
 
                     })
+                    //// postion tagbox device type
+                    let posbox, posboxh
+                    if (!detectDevise()) {
+                        posbox = e.containerPoint.x + 240 > document.documentElement.clientWidth ?
+                            document.documentElement.clientWidth - 245 : e.containerPoint.x
+                        posboxh = e.containerPoint.y
+                    } else {
+                        posbox = document.documentElement.clientWidth / 2 - tagbox.offsetWidth / 2
+                        posboxh = document.documentElement.clientHeight / 2
+                    }
 
-
-                    let posbox = e.containerPoint.x + 240 > document.documentElement
-                        .clientWidth ?
-                        document.documentElement.clientWidth - 245 : e.containerPoint.x
                     lat.value = e.latlng.lat
                     lng.value = e.latlng.lng
                     tagbox.style.left = posbox + 'px'
-                    tagbox.style.top = e.containerPoint.y + 'px'
+                    tagbox.style.top = posboxh + 'px'
                     tag.focus()
 
                     /////// marker sinal
