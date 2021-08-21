@@ -57,7 +57,7 @@
     <script src="{{ asset('template/js/autocomplete.js') }}"></script>
     <!--css app-->
     <link rel="stylesheet" href="{{ asset('template/css/app.css') }}" />
-
+    
 </head>
 
 <body class="light-theme">
@@ -96,6 +96,7 @@
                 @endauth
 
             </div>
+            <!--/lista de tags-->
             <div class="introlist">
                 <h2> <img src="https://twemoji.maxcdn.com/v/13.0.0/72x72/1f4cc.png" height="30px" width="30px"> Neste
                     local <span class="beta"> ( 5km a volta) </span></h2>
@@ -103,7 +104,15 @@
 
                 <ul id="intro"></ul>
             </div>
-            <div id="municipios"> ddaddad</div>
+            <!--//municipios//-->
+            <div class="introlist_2">
+                <h2> <img src="https://twemoji.maxcdn.com/v/13.0.0/72x72/1f3db.png" height="30px" width="30px"> Infos do
+                    municipio </h2>
+
+                <munip-list id="municipios"> </munip-list>
+                <!--/receitas municipios/-->
+                <map-receitas id='receitas'></map-receitas>
+            </div>
             <hr>
             <p class="love">BAIRROS mapa colaborativo -{{ date('Y') }}</p>
         </div>
@@ -121,7 +130,7 @@
                         @csrf
                         <a href="{{ route('logout') }}"
                             onclick="event.preventDefault();
-                                                                                                                                                                                                                                                                                                                                                                                                                                     this.closest('form').submit();">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                     this.closest('form').submit();">
                             Logout
                         </a>
                     </form>
@@ -234,7 +243,9 @@
             truncateString,
             badlist,
             villeName,
-            detectDevise
+            detectDevise,
+            municipios,
+            fetchReceitas
         } from "{{ asset('template/js/helpers.js') }}";
 
         ///// map var
@@ -301,6 +312,8 @@
             iconAnchor: [15, 52],
 
         });
+
+
 
         ///VARS INTRO 
         let intro = document.getElementById('intro')
@@ -412,16 +425,16 @@
         ////////////// drag map load tags //////
         ////// MAP DRAGED///////////
         let viewportHeight = window.innerHeight;
-        let viewportWidth 
-        detectDevise() ? viewportWidth= window.innerWidth *50/100 :viewportWidth = window.innerWidth * 30 / 100;
-      
+        let viewportWidth
+        detectDevise() ? viewportWidth = window.innerWidth * 50 / 100 : viewportWidth = window.innerWidth * 30 / 100;
+
         map.on('dragend', (e) => {
             tagbox.style.display = 'none'
             marker_sinal()
             // Drag event
             let distance = e.target.dragging._draggable._newPos.distanceTo(e.target.dragging._draggable
                 ._startPos);
-  console.log(viewportWidth +'---distance'+distance)
+            console.log(viewportWidth + '---distance' + distance)
             if (distance >= viewportWidth) {
                 tag.value = ''
 
@@ -530,6 +543,9 @@
 
 
                 }).catch(error => console.log('error', error));
+
+            ///// GET MUNICIPIOS
+            municipios(lat, lng)
 
 
 
