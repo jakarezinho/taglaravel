@@ -1,4 +1,4 @@
-var Autocomplete = function() { "use strict";
+ export var Autocomplete = function() { "use strict";
 
     function t(e) { return (t = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(t) { return typeof t } : function(t) { return t && "function" == typeof Symbol && t.constructor === Symbol && t !== Symbol.prototype ? "symbol" : typeof t })(e) }
 

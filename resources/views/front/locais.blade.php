@@ -34,8 +34,8 @@
         crossorigin=""></script>
 
     <!-- Load Esri Leaflet from CDN -->
-    <script src="https://unpkg.com/esri-leaflet@2.5.0/dist/esri-leaflet.js"
-        integrity="sha512-ucw7Grpc+iEQZa711gcjgMBnmd9qju1CICsRaryvX7HJklK0pGl/prxKvtHwpgm5ZHdvAil7YPxI1oWPOWK3UQ=="
+    <script src="https://unpkg.com/esri-leaflet@3.0.2/dist/esri-leaflet.js"
+        integrity="sha512-myckXhaJsP7Q7MZva03Tfme/MSF5a6HC2xryjAM4FxPLHGqlh5VALCbywHnzs2uPoF/4G/QVXyYDDSkp5nPfig=="
         crossorigin=""></script>
 
     <!-- Fonts -->
@@ -45,19 +45,55 @@
         rel="stylesheet">
 
     <!-- Load Esri Leaflet Geocoder from CDN -->
-    <link rel="stylesheet" href="https://unpkg.com/esri-leaflet-geocoder@2.3.3/dist/esri-leaflet-geocoder.css"
+    <link rel="stylesheet" href="https://unpkg.com/esri-leaflet-geocoder@3.1.1/dist/esri-leaflet-geocoder.css"
         integrity="sha512-IM3Hs+feyi40yZhDH6kV8vQMg4Fh20s9OzInIIAc4nx7aMYMfo+IenRUekoYsHZqGkREUgx0VvlEsgm7nCDW9g=="
         crossorigin="">
-    <script src="https://unpkg.com/esri-leaflet-geocoder@2.3.3/dist/esri-leaflet-geocoder.js"
-        integrity="sha512-HrFUyCEtIpxZloTgEKKMq4RFYhxjJkCiF5sDxuAokklOeZ68U2NPfh4MFtyIVWlsKtVbK5GD2/JzFyAfvT5ejA=="
-        crossorigin=""></script>
+    <script src="https://unpkg.com/esri-leaflet-geocoder@3.1.1/dist/esri-leaflet-geocoder.js"
+        integrity="sha512-enHceDibjfw6LYtgWU03hke20nVTm+X5CRi9ity06lGQNtC9GkBNl/6LoER6XzSudGiXy++avi1EbIg9Ip4L1w=="
+        crossorigin="">
+
+    </script>
 
     <!--load auto complete recherche--->
     <link rel="stylesheet" href="{{ asset('template/css/autocomplete.css') }}" />
-    <script src="{{ asset('template/js/autocomplete.js') }}"></script>
     <!--css app-->
     <link rel="stylesheet" href="{{ asset('template/css/app.css') }}" />
-    
+    <style>
+        .arp {
+            text-align: center;
+            font-size: 0.9em;
+
+        }
+
+        .arp img {
+            vertical-align: text-bottom;
+        }
+
+        .ar {
+            padding: 5px;
+            border-radius: 5px;
+            line-height: 250%;
+
+        }
+
+        .good {
+            background-color: #60e519;
+            color: #ffffff;
+
+        }
+
+        .nogood {
+            background-color: #fff01b;
+           
+        }
+
+        .mau {
+            background-color: #ff631b;
+            color: #ffffff;
+        }
+
+    </style>
+
 </head>
 
 <body class="light-theme">
@@ -83,11 +119,11 @@
                         aos insultos...
                     </p>
                 @else
-                    <p> Para escrever no mapa deve estar conectado <span> <a href="{{ route('login') }}"
-                                class="">Login</a></span> <br>
+                    <p> Para escrever no mapa deve estar conectado <span> <a href="{{ route('login') }}">Login</a></span>
+                        <br>
 
                         @if (Route::has('register'))
-                            <small> Não tem conta ? <a href="{{ route('register') }}" class="">Register</a>
+                            <small> Não tem conta ? <a href="{{ route('register') }}">Register</a>
                             </small>
                     </p>
 
@@ -101,15 +137,17 @@
                 <h2> <img src="https://twemoji.maxcdn.com/v/13.0.0/72x72/1f4cc.png" height="30px" width="30px"> Neste
                     local <span class="beta"> ( 5km a volta) </span></h2>
                 <p class="center" id="loading"></p>
-
                 <ul id="intro"></ul>
             </div>
             <!--//municipios//-->
             <div class="introlist_2">
                 <h2> <img src="https://twemoji.maxcdn.com/v/13.0.0/72x72/1f3db.png" height="30px" width="30px"> Infos do
                     municipio </h2>
-
                 <munip-list id="municipios"> </munip-list>
+                <!--//qualidade ar //--->
+                <air-quality id="ar"> </air-quality>
+                <!--//tempo//-->
+                <tempo-hoje id="tempo"> </tempo-hoje>
                 <!--/receitas municipios/-->
                 <map-receitas id='receitas'></map-receitas>
             </div>
@@ -130,18 +168,18 @@
                         @csrf
                         <a href="{{ route('logout') }}"
                             onclick="event.preventDefault();
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                     this.closest('form').submit();">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 this.closest('form').submit();">
                             Logout
                         </a>
                     </form>
                 </span>
 
-                <span> <a href="{{ url('/dashboard') }}" class="">Dashboard </a></span>
+                <span> <a href="{{ url('/dashboard') }}">Dashboard </a></span>
             @else
-                <span> <a href="{{ route('login') }}" class="">Log in</a></span>
+                <span> <a href="{{ route('login') }}">Log in</a></span>
 
                 @if (Route::has('register'))
-                    <span> <a href="{{ route('register') }}" class="">Register</a></span>
+                    <span> <a href="{{ route('register') }}">Register</a></span>
                 @endif
             @endauth
 
@@ -189,7 +227,8 @@
         </div>
         <div id="escreve" class="enable escreve"><img src="{{ url('template/images/escreve.png') }}"
                 alt="escrever no mapa"></div>
-        <div id="stop" class="enable stop"> <img src="{{ url('template/images/stop.png') }}" alt="escrever no mapa">
+        <div id="stop" class="enable stop"> <img src="{{ url('template/images/stop.png') }}"
+                alt="escrever no mapa">
         </div>
 
 
@@ -245,8 +284,22 @@
             villeName,
             detectDevise,
             municipios,
-            fetchReceitas
+            fetchReceitas,
+            airPolution,
+            meteoOpenWhather,
         } from "{{ asset('template/js/helpers.js') }}";
+
+        ///api key
+        import {
+            apiKeygeo,
+            apiTempo
+
+        } from "{{ asset('template/js/apikey.js') }}"
+
+        ////autocomplete pesquisa
+        import {Autocomplete
+        }from "{{ asset('template/js/autocomplete.js') }}"
+
 
         ///// map var
         var map = L.map('map', {
@@ -300,6 +353,9 @@
         let action
         let piclocal = {}
         const baseurl = '{{ url('/') }}'
+        ///VARS CLIMA
+        const ar = document.getElementById('ar')
+        const tempo = document.getElementById('tempo')
 
         const sinalicon = L.icon({
             iconUrl: 'https://twemoji.maxcdn.com/v/13.0.0/72x72/1f4cc.png',
@@ -318,6 +374,8 @@
         ///VARS INTRO 
         let intro = document.getElementById('intro')
         let loading = document.getElementById('loading')
+
+
 
 
         /////DARCK MODE
@@ -404,8 +462,6 @@
                 getLocaisdislike()
 
                 open.innerHTML = '<span class="material-icons-two-tone notranslate">close</span>'
-
-
             }
 
             dc.classList.toggle("dep")
@@ -414,7 +470,10 @@
 
 
         //// Geo code/////
-        let gcs = L.esri.Geocoding.geocodeService();
+        let gcs = L.esri.Geocoding.geocodeService({
+            apikey: apiKeygeo
+        })
+
         let buildingLayers = L.layerGroup().addTo(map);
         let buildingLayersDeslike = L.layerGroup().addTo(map);
 
@@ -434,7 +493,7 @@
             // Drag event
             let distance = e.target.dragging._draggable._newPos.distanceTo(e.target.dragging._draggable
                 ._startPos);
-            console.log(viewportWidth + '---distance' + distance)
+
             if (distance >= viewportWidth) {
                 tag.value = ''
 
@@ -454,7 +513,12 @@
             vote.style.display = 'block'
             vote.innerHTML = 'Loading...'
             buildingLayers.clearLayers()
+            //////ville name
             villeName(gcs, lat, lng)
+
+            ///qualidade do ar meteo
+            meteoOpenWhather(lat, lng)
+            airPolution(lat, lng)
 
             let thisLayer = L.popup({})
 
@@ -774,7 +838,6 @@
                     return response.text();
                 })
                 .then(function(text) {
-                    console.log('like enviado')
 
                 })
                 .catch(function(error) {
@@ -808,9 +871,7 @@
                 vote.style.display = 'block'
                 vote.innerHTML = 'obrigado / thank you'
 
-
                 setTimeout(() => {
-                    console.log(map.getCenter().lat);
                     getLocais(map.getCenter().lat, map.getCenter().lng)
                     vote.style.display = 'none'
                     confetti({

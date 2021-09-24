@@ -1,4 +1,8 @@
 ///////////////// FUNCTIONS HELPER/////////////////
+////apikey
+import {
+    apiTempo,
+} from "./apikey.js";
 
 ///////////////// function hot //////////
 export function hotTag(baseurl, likes) {
@@ -43,7 +47,6 @@ export function truncateString(str, num) {
 //////// BAD LIST display bad tag in info//
 
 export function badlist(postid) {
-    console.log(postid)
     let badlist = document.getElementById('dis-' + postid)
     if (badlist) {
         badlist.innerHTML = 'bad!!'
@@ -83,7 +86,7 @@ export async function municipios(lat, lng) {
         const munip = await response.json()
         munipcontent.innerHTML =
             `<p> <strong> Municipio:</strong> ${munip.detalhesMunicipio.nome}  </p>
-                 <p> <strong>Distrito: </strong> ${munip.distrito}  <strong> Habitantes: </strong> ${(munip.detalhesMunicipio.populacao)}  <strong>  Area: </strong> ${(munip.detalhesMunicipio.areaha)} <strong>Codigo Postal : </strong> ${munip.detalhesMunicipio.codigopostal} <strong> Eleitores : </strong> ${(munip.detalhesMunicipio.eleitores)}<p>
+                 <p> <strong>Distrito: </strong> ${munip.distrito}  <strong> Habitantes: </strong> ${(munip.detalhesMunicipio.populacao)}  <strong>  Area: </strong> ${(munip.detalhesMunicipio.areaha)} Km2 <strong>Codigo Postal : </strong> ${munip.detalhesMunicipio.codigopostal} <strong> Eleitores : </strong> ${(munip.detalhesMunicipio.eleitores)}<p>
                 <p><strong> Presidente de camara:</strong> ${munip.detalhesMunicipio.presidentecamara}</p>
                 <p> <strong> Freguesias:</strong> ${munip.freguesia} </p>`
         fetchReceitas('https://dados.gov.pt/s/resources/receitas-municipais-2016/20180514-160512/AIIRM2016.json', munip.detalhesMunicipio.nome)
@@ -105,7 +108,6 @@ export async function fetchReceitas(url, municipio) {
         const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
         const response = await fetch(url);
         const json = await response.json();
-        console.log(json.d)
         var result = json.d.filter(function (obj, index) {
             return obj.dscautarquia === municipio
         })
@@ -114,7 +116,6 @@ export async function fetchReceitas(url, municipio) {
             const receitaslist = document.createElement('div')
             receitaslist.classList.add("munip")
             const data = new Date(item.Timestamp).toLocaleDateString('pt-PT', options);
-            console.log(item)
 
             receitaslist.innerHTML = `<h2> <img src="https://twemoji.maxcdn.com/v/13.0.0/72x72/1f4b0.png" height="30px" width="30px"><strong>
          Receitas do municipio</strong></h2> <p> <em> Atualização ${data}</em></p>
@@ -139,6 +140,68 @@ export async function fetchReceitas(url, municipio) {
 
 
 
+}
+
+/////////////////// POLUTION OPEN WHATHER
+export async function airPolution(lat, lng) {
+    var requestOptions = {
+        method: 'GET',
+        redirect: 'follow'
+    };
+
+    try {
+        const url =
+            `https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lng}&appid=${apiTempo}`
+
+        const response = await fetch(url, requestOptions);
+
+        const json = await response.json();
+        let ca = json.list[0].main.aqi
+        console.log(ca)
+        let rp
+        if (ca <= 2) {
+            rp = `<span class=" ar good"> Bom!</span> `
+        }
+        if (ca > 2 && ca < 4) {
+            rp = `<span class=" ar nogood"> moderado!</span> `
+        }
+        if (ca >= 4) {
+            rp = `<span class=" ar mau"> mau!</span> `
+        }
+
+
+        ar.innerHTML = `<p class="arp"> Qualidade do ar: ${rp}</p>`
+
+
+
+    } catch (error) {
+        console.log(error)
+
+    }
+
+}
+
+
+
+//////////////////////METEO OPEM WATHER /////
+export async function meteoOpenWhather(lat, lng) {
+    var requestOptions = {
+        method: 'GET',
+        redirect: 'follow'
+    };
+    try {
+        const url =
+            `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&lang=pt&units=metric&appid=${apiTempo}`
+
+        const response = await fetch(url, requestOptions);
+
+        const json = await response.json();
+        tempo.innerHTML =
+            `<p class="arp"> Temperatura: ${Math.round(json.main.temp)}º  <img src="https://openweathermap.org/img/wn/${json.weather[0].icon}.png" width="35px" height="35px"> ${json.weather[0].description}</p>`
+    } catch (error) {
+        console.log(error)
+
+    }
 }
 
 
