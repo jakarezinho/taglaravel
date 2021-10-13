@@ -2,6 +2,7 @@
 ////apikey
 import {
     apiTempo,
+    api_airvisual,
 } from "./apikey.js";
 
 ///////////////// function hot //////////
@@ -157,7 +158,7 @@ export async function airPolution(lat, lng) {
 
         const json = await response.json();
         let ca = json.list[0].main.aqi
-        console.log(ca)
+        console.log(json)
         let rp
         if (ca <= 2) {
             rp = `<span class=" ar good"> Bom!</span> `
@@ -183,7 +184,7 @@ export async function airPolution(lat, lng) {
 
 
 
-//////////////////////METEO OPEM WATHER /////
+//////////////////////METEO OPEM WATHER api.openweathermap.org /////
 export async function meteoOpenWhather(lat, lng) {
     var requestOptions = {
         method: 'GET',
@@ -196,8 +197,46 @@ export async function meteoOpenWhather(lat, lng) {
         const response = await fetch(url, requestOptions);
 
         const json = await response.json();
+        console.log(json)
         tempo.innerHTML =
             `<p class="arp"> Temperatura: ${Math.round(json.main.temp)}º  <img src="https://openweathermap.org/img/wn/${json.weather[0].icon}.png" width="35px" height="35px"> ${json.weather[0].description}</p>`
+    } catch (error) {
+        console.log(error)
+
+    }
+}
+
+
+///////////// AIR QUALITY api.airvisual.com
+
+export async function airQuality(lat, lng) {
+    var requestOptions = {
+        method: 'GET',
+        redirect: 'follow'
+    };
+
+    try {
+        const url =
+            `https://api.airvisual.com/v2/nearest_city?lat=${lat}&lon=${lng}&key=${api_airvisual}`
+
+        const response = await fetch(url, requestOptions);
+
+        const json = await response.json();
+        console.log(json.data.current.pollution.aqius)
+        let c = json.data.current.pollution.aqius
+        let rp
+        if (c <= 50) {
+            rp = `<span class=" ar good"> Bom!</span> `
+        }
+        if (c > 50 && c <= 80) {
+            rp = `<span class=" ar nogood"> medio!</span> `
+        }
+        if (c > 80) {
+            rp = `<span class=" ar mau"> mau!</span> `
+        }
+       
+        ar.innerHTML = `<p class="arp"> Qualidade do ar: ${rp}</p>`
+
     } catch (error) {
         console.log(error)
 

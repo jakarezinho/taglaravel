@@ -287,6 +287,7 @@
             fetchReceitas,
             airPolution,
             meteoOpenWhather,
+            airQuality
         } from "{{ asset('template/js/helpers.js') }}";
 
         ///api key
@@ -517,8 +518,9 @@
             villeName(gcs, lat, lng)
 
             ///qualidade do ar meteo
+            airQuality(lat, lng)
             meteoOpenWhather(lat, lng)
-            airPolution(lat, lng)
+            //airPolution(lat, lng)
 
             let thisLayer = L.popup({})
 
