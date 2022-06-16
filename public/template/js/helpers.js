@@ -82,7 +82,7 @@ export async function municipios(lat, lng) {
     muniplist.innerHTML = ''
     const munipcontent = document.createElement('div')
     munipcontent.classList.add("munip")
-    const response = await fetch(`https://geoptapi.org/gps?lat=${lat}&lon=${lng}&detalhes=1`);
+    const response = await fetch(`https://geoptapi.org/gps?lat=${lat}&lon=${lng}&detalhes=1&json=1`);
     if (response.status == 200) {
         const munip = await response.json()
         munipcontent.innerHTML =
